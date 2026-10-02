@@ -1,0 +1,14 @@
+{
+  "challenge_module": "Challenge",
+  "solution_module": "Solution",
+  "theorem_names": [
+    "C4.theoremA_slice",
+    "C4.theoremA",
+    "C4.theoremA_cyclic",
+    "C4.nondegenerate",
+    "C4.convex_count"
+  ],
+  "definition_names": [],
+  "permitted_axioms": ["propext", "Quot.sound", "Classical.choice"],
+  "enable_nanoda": true
+}

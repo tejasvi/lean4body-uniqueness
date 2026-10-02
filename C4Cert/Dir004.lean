@@ -1,0 +1,135 @@
+module
+
+public import C4Check
+
+public section
+
+/-! Cells `932 ≤ n < 1046` of the direct grid: `decide +kernel` checks that `checkBoxH` succeeds
+on each light cell, and on each piece of a heavy one, with its hint. -/
+
+set_option Elab.async false
+
+namespace C4.Cert.Dir004
+
+theorem k932_0 : (checkBoxH dirMode depth (splitBox (dirCellBox 932) 3).1
+      1150810117051696120129397482879734823279131582451224385085818803038854055149486852757704879550407680779721).isSome = true := by
+  decide +kernel
+
+theorem k932_1 : (checkBoxH dirMode depth (splitBox (dirCellBox 932) 3).2
+      3895392900801157570706077698651319502907016790673255725519768057623186648361720846130).isSome = true := by
+  decide +kernel
+
+theorem k933_0 : (checkBoxH dirMode depth (splitBox (dirCellBox 933) 3).1
+      255083995538819200441148679895139080830948776074189724714626192763357974149399572302220489).isSome = true := by
+  decide +kernel
+
+theorem k933_1 : (checkBoxH dirMode depth (splitBox (dirCellBox 933) 3).2
+      3890945487675808406965258189916626046139804307838142721374082158300520057833660667697).isSome = true := by
+  decide +kernel
+
+theorem c2 : allCells dirCell 934 959 [
+    338398808661021209289494542439111884890637957412074482576183660757661516737397068852666699648177338953128360468864059149927879,
+    2359554222045134530369, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3] = true := by
+  decide +kernel
+
+theorem c3 : allCells dirCell 959 960 [
+    976118747047376038925886039828341912473995985985189309870306072508266466227551126791] = true := by
+  decide +kernel
+
+theorem k960_0 : (checkBoxH dirMode depth (splitBox (dirCellBox 960) 3).1
+      3899459412231157143597488043784122400197178277133502397182722144316878063112504380785).isSome = true := by
+  decide +kernel
+
+theorem k960_1 : (checkBoxH dirMode depth (splitBox (dirCellBox 960) 3).2
+      3896477767742247518925678599424677470447427187975771349600670565584847304265497843505).isSome = true := by
+  decide +kernel
+
+theorem c5 : allCells dirCell 961 962 [
+    409733010434089748296453249625857145821294675882117034996133479617432957102965409699807221233922817999844914414943278423671565972728509024602487807179] = true := by
+  decide +kernel
+
+theorem c6 : allCells dirCell 962 987 [
+    3884981885700269900742839371321200259685444705840480584876634600371613277166342098247,
+    147427917825910970932, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3] = true := by
+  decide +kernel
+
+theorem c7 : allCells dirCell 987 988 [
+    18006278510752270043991736880481019381710104697109142926296820781288651585874228658586226806562036129139] = true := by
+  decide +kernel
+
+theorem k988_0 : (checkBoxH dirMode depth (splitBox (dirCellBox 988) 3).1
+      243747050145306830489545103789245408627516720899225586089356820563539581133947802866).isSome = true := by
+  decide +kernel
+
+theorem k988_1 : (checkBoxH dirMode depth (splitBox (dirCellBox 988) 3).2
+      3896422393795516159268103416124053538464259479807997419495456311461526745976967960369).isSome = true := by
+  decide +kernel
+
+theorem k989_0 : (checkBoxH dirMode depth (splitBox (dirCellBox 989) 3).1
+      973236093939738081067180230049598383513707075115941759470882939510803224229599607868).isSome = true := by
+  decide +kernel
+
+theorem k989_1 : (checkBoxH dirMode depth (splitBox (dirCellBox 989) 3).2
+      52724726198906554339033102764396765457626648025279384303198815409).isSome = true := by
+  decide +kernel
+
+theorem c10 : allCells dirCell 990 1015 [
+    17918803275136099535457982045687765891479711465960549930651588835602665162410555554215230510253745504625,
+    147427398993921605364, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3] = true := by
+  decide +kernel
+
+theorem c11 : allCells dirCell 1015 1016 [
+    18005536071699991884612146936735105270424164692738076410528873325156269743856428707997818255780187579763] = true := by
+  decide +kernel
+
+theorem c12 : allCells dirCell 1016 1017 [
+    5560940599605466550952588236181162377209330444508990464090100347619573604917341406770405834229401167248450384104047219666408915955] = true := by
+  decide +kernel
+
+theorem c13 : allCells dirCell 1017 1018 [
+    21687163433731842560124511158467632316637139128136666997934495666671766202591218491986286902841054359299442139425639872121590983] = true := by
+  decide +kernel
+
+theorem c14 : allCells dirCell 1018 1043 [
+    51445905920831944399745788524173325158063485673326424748304977, 147428734488273831828, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3] = true := by
+  decide +kernel
+
+theorem c15 : allCells dirCell 1043 1044 [
+    4500094303112765881393330815028579578348398220581003656826789533694039904555521885390023925392110357875] = true := by
+  decide +kernel
+
+theorem c16 : allCells dirCell 1044 1045 [
+    86875979796105518045895994594865617323416224041059879544737179719867677161578330506759191911717796729208629657034867105502544883] = true := by
+  decide +kernel
+
+theorem c17 : allCells dirCell 1045 1046 [
+    294027230049741987173944500722496233690832886739373002195929099455418170118369112705436357304535906587079921] = true := by
+  decide +kernel
+
+theorem cover : Cover dirMode dirCellBox 932 1046 :=
+  (Cover.one (box := dirCellBox) (n := 932)
+      (.split 3 (.leaf _ k932_0) (.leaf _ k932_1))).trans <|
+  (Cover.one (box := dirCellBox) (n := 933)
+      (.split 3 (.leaf _ k933_0) (.leaf _ k933_1))).trans <|
+  (Cover.dir c2).trans <|
+  (Cover.dir c3).trans <|
+  (Cover.one (box := dirCellBox) (n := 960)
+      (.split 3 (.leaf _ k960_0) (.leaf _ k960_1))).trans <|
+  (Cover.dir c5).trans <|
+  (Cover.dir c6).trans <|
+  (Cover.dir c7).trans <|
+  (Cover.one (box := dirCellBox) (n := 988)
+      (.split 3 (.leaf _ k988_0) (.leaf _ k988_1))).trans <|
+  (Cover.one (box := dirCellBox) (n := 989)
+      (.split 3 (.leaf _ k989_0) (.leaf _ k989_1))).trans <|
+  (Cover.dir c10).trans <|
+  (Cover.dir c11).trans <|
+  (Cover.dir c12).trans <|
+  (Cover.dir c13).trans <|
+  (Cover.dir c14).trans <|
+  (Cover.dir c15).trans <|
+  (Cover.dir c16).trans <|
+  (Cover.dir c17)
+
+end C4.Cert.Dir004

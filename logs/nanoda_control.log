@@ -1,0 +1,10 @@
+nanoda-out/B/Dir000.json: the statement of C4.Cert.Dir000.c15 has 4 literals, 2 of them used by no other declaration; the largest has 44 digits, ...874630
+adding 1: Lean's kernel proves the changed statement true
+adding 2: Lean's kernel proves the changed statement false (nanoda-out/control.lean)
+changed the literal in the export from ...874630 to ...874632
+the unchanged export, in part B: Checked 743 declarations with no errors
+the changed export: nanoda exits with status 101
+  thread 'main' panicked at src/tc.rs:955:71:
+  assertion failed: self.def_eq(u, v)
+  note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+REJECTED

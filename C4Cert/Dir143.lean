@@ -1,0 +1,129 @@
+module
+
+public import C4Check
+
+public section
+
+/-! Cells `4178 ≤ n < 4211` of the direct grid: `decide +kernel` checks that `checkBoxH` succeeds
+on each light cell, and on each piece of a heavy one, with its hint. -/
+
+set_option Elab.async false
+
+namespace C4.Cert.Dir143
+
+theorem k4178_0 : (checkBoxH dirMode depth (splitBox (dirCellBox 4178) 2).1
+      15698318485083653644522335962844941500460959545874212652721836891704541499037761127372).isSome = true := by
+  decide +kernel
+
+theorem k4178_1 : (checkBoxH dirMode depth (splitBox (dirCellBox 4178) 2).2
+      46095690995533199246185729110051961837138889523).isSome = true := by
+  decide +kernel
+
+theorem k4179_0 : (checkBoxH dirMode depth (splitBox (dirCellBox 4179) 2).1
+      15655522575628952594035381627841094837372968514130023826554772730092404165915868382156).isSome = true := by
+  decide +kernel
+
+theorem k4179_1 : (checkBoxH dirMode depth (splitBox (dirCellBox 4179) 2).2
+      15656037322125346322650404914873470428691808809530860575598529915519805257728086492108).isSome = true := by
+  decide +kernel
+
+theorem k4180_0 : (checkBoxH dirMode depth (splitBox (dirCellBox 4180) 2).1
+      3387864547257588767318299579706407800712811588915836761766441501644).isSome = true := by
+  decide +kernel
+
+theorem k4180_1 : (checkBoxH dirMode depth (splitBox (dirCellBox 4180) 2).2
+      847020067318641631646203842964202451016110064912917499999163761612).isSome = true := by
+  decide +kernel
+
+theorem k4181_0 : (checkBoxH dirMode depth (dirCellBox 4181)
+      105158433009791760396341848052274122006675564820844407557710542215912556038532931572520646478131359223424467986242916618576292562177172160935810313698364).isSome = true := by
+  decide +kernel
+
+theorem c4 : allCells dirCell 4182 4183 [
+    73600808918479661661341269159027506309218527612976502685758566192042094966438555710071861558244860237134908] = true := by
+  decide +kernel
+
+theorem c5 : allCells dirCell 4183 4184 [
+    4706790026539400966162986662756419549267297050228809260782989523220670426881203412530402813782429602044509244] = true := by
+  decide +kernel
+
+theorem c6 : allCells dirCell 4184 4185 [
+    18815708676247018596288613325033956958712554458712026528312715919859635785223943818495999732288564926610391868] = true := by
+  decide +kernel
+
+theorem c7 : allCells dirCell 4185 4186 [
+    15557523113294606460073304107178411045640848856762090888158371014296541470105963840316] = true := by
+  decide +kernel
+
+theorem c8 : allCells dirCell 4186 4187 [
+    13489382046836531108439216465475025332915355001902176906078026933052] = true := by
+  decide +kernel
+
+theorem c9 : allCells dirCell 4187 4188 [
+    62193239623366102487311216700982038228201611779223504854049629431427253914844123833148] = true := by
+  decide +kernel
+
+theorem c10 : allCells dirCell 4188 4189 [
+    286766851865219710342016501274771472130995140939974447620756574909478998382633166301380254769778940957500] = true := by
+  decide +kernel
+
+theorem c11 : allCells dirCell 4189 4204 [
+    822857188515937752822816677965508619401564866335317059935237308,
+    43556620991833218954004145519821817891164, 147561424651052004964, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0] = true := by
+  decide +kernel
+
+theorem c12 : allCells dirCell 4204 4205 [
+    209234925187568318582296354616603975917751276762029562172334163] = true := by
+  decide +kernel
+
+theorem c13 : allCells dirCell 4205 4206 [
+    1188978381938220909606766006341256941218227571106915798160872359714130842661412244117141745526753388129636146] = true := by
+  decide +kernel
+
+theorem c14 : allCells dirCell 4206 4207 [
+    4018155780381246233556548663084475479271146697415677099891480607674828864709708142201650] = true := by
+  decide +kernel
+
+theorem c15 : allCells dirCell 4207 4208 [
+    1001967325996039493600900368532231088047725423568870676398558113800121161566700555825970] = true := by
+  decide +kernel
+
+theorem c16 : allCells dirCell 4208 4209 [
+    75562187683536324761482779069954064268704151396712185307960194901723151470191726124202410131296810192590016306] = true := by
+  decide +kernel
+
+theorem c17 : allCells dirCell 4209 4210 [
+    73687256312401859331248870015738512933272198963165917249022672030196737972185717033080884479913780734803004] = true := by
+  decide +kernel
+
+theorem c18 : allCells dirCell 4210 4211 [
+    1357846987874225794091693946167947463786753337680379921023531018531562642364968275485236139840288953235573151947959705382894652] = true := by
+  decide +kernel
+
+theorem cover : Cover dirMode dirCellBox 4178 4211 :=
+  (Cover.one (box := dirCellBox) (n := 4178)
+      (.split 2 (.leaf _ k4178_0) (.leaf _ k4178_1))).trans <|
+  (Cover.one (box := dirCellBox) (n := 4179)
+      (.split 2 (.leaf _ k4179_0) (.leaf _ k4179_1))).trans <|
+  (Cover.one (box := dirCellBox) (n := 4180)
+      (.split 2 (.leaf _ k4180_0) (.leaf _ k4180_1))).trans <|
+  (Cover.one (box := dirCellBox) (n := 4181)
+      (.leaf _ k4181_0)).trans <|
+  (Cover.dir c4).trans <|
+  (Cover.dir c5).trans <|
+  (Cover.dir c6).trans <|
+  (Cover.dir c7).trans <|
+  (Cover.dir c8).trans <|
+  (Cover.dir c9).trans <|
+  (Cover.dir c10).trans <|
+  (Cover.dir c11).trans <|
+  (Cover.dir c12).trans <|
+  (Cover.dir c13).trans <|
+  (Cover.dir c14).trans <|
+  (Cover.dir c15).trans <|
+  (Cover.dir c16).trans <|
+  (Cover.dir c17).trans <|
+  (Cover.dir c18)
+
+end C4.Cert.Dir143

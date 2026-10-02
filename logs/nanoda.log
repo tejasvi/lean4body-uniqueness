@@ -1,0 +1,13 @@
+part A: export the closure of the main theorems and check it
+nanoda-out/main.json: 54115 declarations, axioms ['propext', 'Quot.sound', 'Classical.choice']
+nanoda-out/mainA.json: 3875 certificates made axioms, 3875 auxiliary theorems dropped
+Checked 52201 declarations with no errors
+part A ok
+part B: export and check the certificate modules, 16 at a time
+part B: 203 modules ok, 0 failed
+glue
+203 module exports: 3875 certificates proved, 910 other declarations, axioms ['propext']
+nanoda-out/mainA.json: 50240 declarations, 3875 axioms besides ['Classical.choice', 'Quot.sound', 'propext']
+0 problems []
+GLUE OK
+ALL CHECKS PASSED
