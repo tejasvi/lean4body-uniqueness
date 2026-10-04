@@ -9,10 +9,10 @@ public import C4.Nondegenerate
 # Theorem A: two orientations, and analytic dependence on the masses
 
 `Rmap` is real analytic (`Rmap_contDiffAt_omega`), and its partial derivative in `u` is invertible
-at the points of `𝒵` (Theorem B in its weak form, `Rmap_partial_injective`).  So the real-analytic
-implicit function theorem (`ContDiffAt.implicitFunction` with `n = ω`) gives, near every
-`m₀ ∈ Mpos`, a real-analytic `ψ` with `Rmap (m, ψ m) = 0` and `ψ m ∈ Opos`.  By Theorem A, `ψ m` is
-the unique CC of `m` in the slice.
+at the points of `𝒵` (Theorem B, `Rmap_partial_injective`).  So the real-analytic implicit
+function theorem (`ContDiffAt.implicitFunction` with `n = ω`) gives, near every `m₀ ∈ Mpos`, a
+real-analytic `ψ` with `Rmap (m, ψ m) = 0` and `ψ m ∈ Opos`.  By Theorem A, `ψ m` is the unique CC
+of `m` in the slice.
 
 * `theoremA_analytic_slice`: the CC in the slice is a real-analytic function of the masses.
 * `theoremA_two`: the CCs with a given cyclic order form exactly two classes under

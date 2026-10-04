@@ -1,4 +1,4 @@
-'C4.theoremB_weak' depends on axioms: [propext, Classical.choice, Quot.sound]
+'C4.theoremB' depends on axioms: [propext, Classical.choice, Quot.sound]
 'C4.theoremA' depends on axioms: [propext, Classical.choice, Quot.sound]
 'C4.theoremA_cyclic' depends on axioms: [propext, Classical.choice, Quot.sound]
 'C4.theoremA_slice' depends on axioms: [propext, Classical.choice, Quot.sound]

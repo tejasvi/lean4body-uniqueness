@@ -5,3 +5,5 @@
 /dir.cut
 /ch.cut
 __pycache__/
+/out
+/shards

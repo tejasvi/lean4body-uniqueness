@@ -1,0 +1,63 @@
+name: check
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  shard:
+    name: shard ${{ matrix.shard }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 300
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19]
+    steps:
+      - uses: actions/checkout@v7
+      - name: install elan
+        run: |
+          curl -sSfL https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh | sh -s -- -y --default-toolchain none
+          echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
+      - name: build and check the certificate modules of shard ${{ matrix.shard }}
+        run: python3 ci/shard.py ${{ matrix.shard }} out
+      - uses: actions/upload-artifact@v7
+        if: always()
+        with:
+          name: shard-${{ matrix.shard }}
+          path: out
+          retention-days: 30
+
+  final:
+    needs: shard
+    runs-on: ubuntu-latest
+    timeout-minutes: 300
+    steps:
+      - name: free disk space
+        run: sudo rm -rf /usr/local/lib/android /usr/share/dotnet /opt/ghc && df -h /
+      - uses: actions/checkout@v7
+      - name: install elan
+        run: |
+          curl -sSfL https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh | sh -s -- -y --default-toolchain none
+          echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
+      - uses: actions/download-artifact@v8
+        with:
+          pattern: shard-*
+          merge-multiple: true
+          path: shards
+      - name: build the rest, check the main theorems, the glue and the control
+        run: python3 ci/final.py shards out
+      - uses: actions/upload-artifact@v7
+        if: always()
+        with:
+          name: final
+          path: |
+            out/*.log
+            out/*.tsv
+            out/*.md
+            out/certnames.txt
+          retention-days: 90

@@ -4,7 +4,7 @@ public import C4
 
 @[expose] public section
 
-#print axioms C4.theoremB_weak
+#print axioms C4.theoremB
 #print axioms C4.theoremA
 #print axioms C4.theoremA_cyclic
 #print axioms C4.theoremA_slice

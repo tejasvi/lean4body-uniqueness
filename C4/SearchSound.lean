@@ -8,7 +8,7 @@ public import C4.ModeSound
 # Soundness of the replay
 
 `checkBoxH_sound`: if `checkBoxH M fuel B h` succeeds, then over `B` every feasible zero of `P`
-(all `g_i ≥ 0`, `P = 0`, and `|x| ≤ 1` if the mode clamps) has a `y` with `tr S(y) < 127/128`.
+(all `g_i ≥ 0`, `P = 0`, and `|x| ≤ 1` if the mode clamps) has a `y` with `tr S(y) < 3/4`.
 
 The hint only chooses among steps that are each sound, so nothing about it needs a proof.  Every
 test of the replay is decided here with `sel_pos`/`sel_neg` on its (free) condition, never by
@@ -361,7 +361,7 @@ theorem locH_sound (hM : ModeSound M Sm) {B : Box} {z0 z1 z2 : ℝ} (hz : B.mem 
 
 theorem certRun_sound (hM : ModeSound M Sm) {B : Box} {X : I} {y0 y1 : Nat}
     (h : certRun M B X y0 y1 = true) {z0 z1 z2 x : ℝ} (hz : B.mem z0 z1 z2) (hx : I.mem x X) :
-    trSR (Sm.C z0 z1 z2 x) (val y0) (val y1) < 127 / 128 := by
+    trSR (Sm.C z0 z1 z2 x) (val y0) (val y1) < 3 / 4 := by
   obtain ⟨e0, e1, e2, e3⟩ := jv_enc B X
   have ht := hM.trJ (box4 B X) (ctr4 B X) (rad B X) (rad_ok B X) _ _ _ _ e0 e1 e2 e3
     (I.pt y0) (I.pt y1) (val y0) (val y1) (I.mem_pt y0) (I.mem_pt y1)
@@ -375,7 +375,7 @@ theorem certRun_sound (hM : ModeSound M Sm) {B : Box} {X : I} {y0 y1 : Nat}
     have hm := JEnc.range (rad_ok B X) (ht j ho) (pt4_mem hz hx)
     have hle : ((J.range (rad B X) j).H : ℝ) + 1 ≤ (thresh : ℝ) := by
       exact_mod_cast ble_true h
-    have hlt : val (J.range (rad B X) j).H < 127 / 128 := by
+    have hlt : val (J.range (rad B X) j).H < 3 / 4 := by
       rw [← val_thresh]
       unfold val
       apply div_lt_div_of_pos_right _ (by positivity)
@@ -384,7 +384,7 @@ theorem certRun_sound (hM : ModeSound M Sm) {B : Box} {X : I} {y0 y1 : Nat}
 
 theorem certAllH_sound (hM : ModeSound M Sm) {B : Box} {z0 z1 z2 x : ℝ} (hz : B.mem z0 z1 z2) :
     ∀ (Xs : List I) (h h' : Nat), certAllH M B Xs h = some h' → ∀ X ∈ Xs, I.mem x X →
-      ∃ y0 y1, trSR (Sm.C z0 z1 z2 x) y0 y1 < 127 / 128
+      ∃ y0 y1, trSR (Sm.C z0 z1 z2 x) y0 y1 < 3 / 4
   | [], _, _, _, _, hX, _ => absurd hX List.not_mem_nil
   | X :: rest, h, h', hc, Y, hY, hx => by
     rw [certAllH] at hc
@@ -399,11 +399,11 @@ theorem certAllH_sound (hM : ModeSound M Sm) {B : Box} {z0 z1 z2 x : ℝ} (hz : 
 
 /-! ## the recursion -/
 
-/-- over `B`, every feasible zero of `P` has a `y` with `tr S(y) < 127/128` -/
+/-- over `B`, every feasible zero of `P` has a `y` with `tr S(y) < 3/4` -/
 def AllGood (M : Mode) (Sm : Sem) (B : Box) : Prop :=
   ∀ z0 z1 z2 x, B.mem z0 z1 z2 → (M.clamp = true → -1 ≤ x ∧ x ≤ 1) →
     (∀ i, 0 ≤ (Sm.G z0 z1 z2 x).get i) → Sm.P z0 z1 z2 x = 0 →
-    ∃ y0 y1, trSR (Sm.C z0 z1 z2 x) y0 y1 < 127 / 128
+    ∃ y0 y1, trSR (Sm.C z0 z1 z2 x) y0 y1 < 3 / 4
 
 theorem leafH_sound (hM : ModeSound M Sm) {B : Box} {h h' : Nat} (hl : leafH M B h = some h') :
     AllGood M Sm B := by

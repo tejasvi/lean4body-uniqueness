@@ -10,15 +10,13 @@ public import C4.Majorant
 @[expose] public section
 
 /-!
-# Theorem B, weak form
+# Theorem B
 
-For every convex central configuration of four positive masses, `Q ≥ K/128` as quadratic forms.
-The paper's Theorem B has `K/4`, from certificates of `tr S < 3/4`; the certificates here prove
-only `tr S < 127/128`, which is enough for every use of Theorem B below and cheaper to check.
+For every convex central configuration of four positive masses, `Q ≥ K/4` as quadratic forms.
 
 The chain: normalize (`normalize`); Dziobek's relations with `σ < 0` (`dziobek_convex`); the
-region `𝒞` and the reduced equations (`inC_of_dziobek`, `normal_form`); `tr S < 127/128` at some
-`y` (`trS_cap`, from the two certified caps); and the majorant `Q ≥ (1 - tr S) K` with `K ≥ 0`
+region `𝒞` and the reduced equations (`inC_of_dziobek`, `normal_form`); `tr S < 3/4` at some `y`
+(`trS_cap`, from the two certified caps); and the majorant `Q ≥ (1 - tr S) K` with `K ≥ 0`
 (`majorant`, `hessK_nonneg`).
 -/
 
@@ -26,9 +24,9 @@ namespace C4
 
 noncomputable section
 
-/-- on the region `𝒞`, every zero of `P` has a `y` with `tr S(y) < 127/128` -/
+/-- on the region `𝒞`, every zero of `P` has a `y` with `tr S(y) < 3/4` -/
 theorem trS_cap {a b c x : ℝ} (hC : InC a b c x) (hP : dirPR a b c x = 0) :
-    ∃ y0 y1, trSR (dirCertR a b c x) y0 y1 < 127 / 128 := by
+    ∃ y0 y1, trSR (dirCertR a b c x) y0 y1 < 3 / 4 := by
   obtain ⟨ha1, ha2, hb2, hc2⟩ := bounds hC
   obtain ⟨ha, hb, hc, hx1, hx2, g1, g2, g3, g4, g5, g6⟩ := hC
   rcases le_total (1 / 8) b with hb1 | hb1
@@ -65,10 +63,10 @@ theorem trS_cap {a b c x : ℝ} (hC : InC a b c x) (hP : dirPR a b c x = 0) :
     obtain ⟨Y0, Y1, hY⟩ := ch_cap hb.le hb1 hal1 hal2 hga1 hga2 hG (by rw [eP, hP, mul_zero])
     exact ⟨Y0 / b, Y1 / b, by rw [← eT]; exact hY⟩
 
-/-- **Theorem B, weak form.**  For a convex central configuration `q` of positive masses `m`,
-`Q_q(v) ≥ K_q(v) / 128` for every variation `v`. -/
-theorem theoremB_weak (m : Masses) (hm : ∀ i, 0 < m i) (q : Conf) (hcc : IsCC m q)
-    (hconv : IsConvex q) (v : Conf) : hessK m q v / 128 ≤ hessQ m q v := by
+/-- **Theorem B.**  For a convex central configuration `q` of positive masses `m`,
+`Q_q(v) ≥ K_q(v) / 4` for every variation `v`. -/
+theorem theoremB (m : Masses) (hm : ∀ i, 0 < m i) (q : Conf) (hcc : IsCC m q)
+    (hconv : IsConvex q) (v : Conf) : hessK m q v / 4 ≤ hessQ m q v := by
   obtain ⟨m', a, b, c, x, k, hm', hk, ha, hb, hc, hx1, hx2, hcc', h14, h23, hv⟩ :=
     normalize m hm q hcc hconv
   obtain ⟨hcf, hconv', -⟩ := qd_props a b c x ha hb hc hx1 hx2
@@ -81,9 +79,9 @@ theorem theoremB_weak (m : Masses) (hm : ∀ i, 0 < m i) (q : Conf) (hcc : IsCC 
   have hT' : trSgeo m' (qd a b c x) (y0, y1) = trSR (dirCertR a b c x) y0 y1 := hT (y0, y1)
   rw [hT'] at hmaj
   have hK0 := hessK_nonneg m' hm' (qd a b c x) v'
-  have h1 : hessK m' (qd a b c x) v' / 128 ≤ hessQ m' (qd a b c x) v' := by nlinarith
+  have h1 : hessK m' (qd a b c x) v' / 4 ≤ hessQ m' (qd a b c x) v' := by nlinarith
   rw [hQ, hK] at h1
-  have h2 : k * (hessK m q v / 128) ≤ k * hessQ m q v := by linarith
+  have h2 : k * (hessK m q v / 4) ≤ k * hessQ m q v := by linarith
   exact le_of_mul_le_mul_left h2 hk
 
 end

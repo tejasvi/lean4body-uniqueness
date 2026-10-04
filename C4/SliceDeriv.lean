@@ -11,8 +11,7 @@ public import C4.TheoremB
 
 For a variation `w` of `(q₃, q₄)` put `φ(t) = Σᵢ ⟨resᵢ(q + t ŵ), ŵᵢ⟩`, `ŵ = wh w`.  At a CC,
 `φ'(0) = Q_q(ŵ - α q)` with `α = Σᵢ mᵢ ⟨qᵢ - c, ŵᵢ⟩ / I`.  If `D_u Rmap (w) = 0` then `φ'(0) = 0`,
-so `Q ≥ K/128` (`theoremB_weak`) and `K ≥ 0` give `K_q(ŵ - α q) = 0`: every `ṙ_ij` vanishes, and
-then `w = 0`.
+so Theorem B and `K ≥ 0` give `K_q(ŵ - α q) = 0`: every `ṙ_ij` vanishes, and then `w = 0`.
 -/
 
 namespace C4
@@ -153,8 +152,8 @@ theorem Rmap_partial_injective {m : Masses} {u : V2 × V2} (h : (m, u) ∈ Zset)
     simpa [dot] using h1.fun_add h2
   have hQ : hessQ m (qs u) (wh w - alphaW m u w • qs u) = 0 :=
     (hasDerivAt_phiW ⟨hm, hu, hcc⟩ w).unique hphi
-  -- `Q ≥ K/128` and `K ≥ 0` give `K = 0`
-  have hB := theoremB_weak m hm (qs u) hcc (Opos_isConvex u hu) (wh w - alphaW m u w • qs u)
+  -- Theorem B and `K ≥ 0` give `K = 0`
+  have hB := theoremB m hm (qs u) hcc (Opos_isConvex u hu) (wh w - alphaW m u w • qs u)
   have hK0 := hessK_nonneg m hm (qs u) (wh w - alphaW m u w • qs u)
   have hK : hessK m (qs u) (wh w - alphaW m u w • qs u) = 0 := by linarith
   exact rigid hu _ (edges_of_hessK_eq_zero hm (Opos_collisionFree u hu) hK)

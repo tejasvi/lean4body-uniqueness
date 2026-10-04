@@ -11,9 +11,10 @@ Searches, in the arithmetic of the checker, for the decisions that `checkBoxH` r
 `C4Check/Search.lean`) and records them as hints.  The heuristics (tolerances, the splitting rule,
 the choice of `y`) follow the branch and bound of `work/rig/bb.py` in lean4body; on top of them, a
 leaf is localised as cheaply as possible (`optX`, by the cost of the jets the kernel will
-evaluate), and a box is split while a split along some dimension makes it cheaper (`checkBoxGr`, a
-greedy search with a one-level lookahead).  Every hint is replayed with `checkBoxH` before it is
-written.
+evaluate), a box is split while a split along some dimension makes it cheaper (`checkBoxGr`, a
+greedy search with a one-level lookahead), and when the `y` chosen at the centre of a box does not
+certify it, a pattern search looks for one that does (`ySearch`).  Every hint is replayed with
+`checkBoxH` before it is written.
 
 Usage: `lake exe gen dir|ch OUT [n₀ n₁]` writes one line `n nP nC nodes clamps hint` per cell
 `n₀ ≤ n < n₁`, where `nP` and `nC` count the jets of `P` and of `tr S` that the replay evaluates
@@ -28,6 +29,8 @@ structure GMode where
   M : Mode
   /-- the certificate at a point, in interval arithmetic (to choose `y`) -/
   certI : I → I → I → I → Cert (Option I)
+  /-- the jets of the certificate over a 4-box (`trJ` is `trS` of these) -/
+  certJ : Rad → J → J → J → J → Cert (Option J)
   /-- relative scales of the three dimensions (aspect rule of the splitting heuristic) -/
   ws : Float × Float × Float
   /-- give up on boxes narrower than this (an offset) -/
@@ -36,12 +39,14 @@ structure GMode where
 def dirG : GMode where
   M := dirMode
   certI A B C X := dirCert (some A) (some B) (some C) (some X)
+  certJ R z0 z1 z2 z3 := @dirCert _ (jetOps R) (some z0) (some z1) (some z2) (some z3)
   ws := (1, 1, 1)
   minw := 687195 * 2 ^ 60   -- ≈ 1.0e-5
 
 def chG : GMode where
   M := chMode
   certI A B C X := chCert (some A) (some B) (some C) (some X)
+  certJ R z0 z1 z2 z3 := @chCert _ (jetOps R) (some z0) (some z1) (some z2) (some z3)
   ws := (2, 1, 1)
   minw := 1099512 * 2 ^ 56   -- ≈ 1.0e-6
 
@@ -195,14 +200,48 @@ structure Plan where
 
 def Plan.cost (p : Plan) : Nat := Gen.cost p.nP p.nC
 
-/-- the `y` fields for keeping `X`, if `certRun` passes with them, and the number of clamps -/
+/-- the upper end of the enclosure of `tr S(y)` over a box of radii `R`, from the jets `cJ` of
+the certificate there, for the hint fields `m0, m1` (what `certRun` compares with `3/4`) -/
+def trU (R : Rad) (cJ : Cert (Option J)) (m0 m1 : Nat) : Option Nat :=
+  (@trS _ (jetOps R) cJ (some (J.cst (I.pt (yPt m0)))) (some (J.cst (I.pt (yPt m1))))).map
+    fun j => (J.range R j).H
+
+/-- pattern search on the hint fields for a `y` with `tr S(y) < 3/4` over a box of radii `R`,
+from `(m0, m1)` with bound `u` and step `s` (halved when no neighbour is better), for at most `n`
+rounds -/
+def ySearch (R : Rad) (cJ : Cert (Option J)) : Nat → Nat → Nat → Nat → Nat → Option (Nat × Nat)
+  | 0, _, _, _, _ => none
+  | n + 1, m0, m1, u, s =>
+    if u < thresh then some (m0, m1) else
+    if s < 2 ^ 8 then none else
+    let cs : List (Nat × Nat) :=
+      (if m0 + s < 2 ^ 32 then [(m0 + s, m1)] else []) ++ (if s ≤ m0 then [(m0 - s, m1)] else []) ++
+      (if m1 + s < 2 ^ 32 then [(m0, m1 + s)] else []) ++ (if s ≤ m1 then [(m0, m1 - s)] else [])
+    let best := cs.foldl (fun (acc : Nat × Nat × Nat) (c : Nat × Nat) =>
+      match trU R cJ c.1 c.2 with
+      | some v => if v < acc.2.2 then (c.1, c.2, v) else acc
+      | none => acc) (m0, m1, u)
+    if best.2.2 < u then ySearch R cJ n best.1 best.2.1 best.2.2 s
+    else ySearch R cJ n m0 m1 u (s / 2)
+
+/-- the `y` fields for keeping `X`, if `certRun` passes with them, and the number of clamps: the
+`y` chosen at the centre, or else, if its bound is under `3/4 + 1/4`, the result of `ySearch` -/
 def certY (G : GMode) (B : Box) (X : I) : Option (Nat × Nat × Nat) :=
   let y := chooseY G (I.ctr B.X0) (I.ctr B.X1) (I.ctr B.X2) (I.ctr X)
   let f0 := yField y.1
   let f1 := yField y.2
-  if certRun G.M B X (yPt f0.1) (yPt f1.1) then
-    some (f0.1, f1.1, (if f0.2 then 1 else 0) + (if f1.2 then 1 else 0))
-  else none
+  let cl := (if f0.2 then 1 else 0) + (if f1.2 then 1 else 0)
+  if certRun G.M B X (yPt f0.1) (yPt f1.1) then some (f0.1, f1.1, cl) else
+    let R := rad B X
+    let cJ := G.certJ R (jv B.X0 0) (jv B.X1 1) (jv B.X2 2) (jv X 3)
+    match trU R cJ f0.1 f1.1 with
+    | some u =>
+      if u < thresh + 32 * 2 ^ 89 then
+        match ySearch R cJ 40 f0.1 f1.1 u (2 ^ 21) with
+        | some (a, b) => if certRun G.M B X (yPt a) (yPt b) then some (a, b, cl) else none
+        | none => none
+      else none
+    | none => none
 
 /-- the cheapest localisation of the piece `X` whose cost is below `bud`, by exhaustive search
 (drop, keep, contract if that shrinks `X` to at most `ρ/16` of its width, bisect unless `X` is
@@ -351,7 +390,7 @@ def main (args : List String) : IO UInt32 := do
   let n1 := (args[3]?.bind String.toNat?).getD N
   let t0 ← IO.monoMsNow
   let tasks := (List.range (n1 - n0)).map fun t =>
-    Task.spawn fun _ => cellLine G box cell 60 true (n0 + t)
+    Task.spawn fun _ => cellLine G box cell 0 true (n0 + t)
   let h ← IO.FS.Handle.mk args[1]! .write
   let mut bad := 0
   for t in tasks do

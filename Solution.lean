@@ -1,6 +1,7 @@
 module
 
 public import C4.TheoremA
+public import C4.TheoremB
 public import C4.Nondegenerate
 public import C4.CorollaryC
 

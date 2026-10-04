@@ -1,31 +1,29 @@
-# Uniqueness of convex four-body central configurations, in Lean
+# Convex four-body central configurations, in Lean
 
-A Lean 4 + Mathlib formalization of Theorem A of the paper *Uniqueness of four-body convex central
-configurations for all masses* by Tejasvi S. Tomar
+A Lean 4 + Mathlib formalization of Theorems A and B of the paper *Uniqueness of four-body convex
+central configurations for all masses* by Tejasvi S. Tomar
 ([arXiv:2609.35632](https://arxiv.org/abs/2609.35632)): for every choice of four positive masses and
-every cyclic order there is exactly one strictly convex central configuration, up to similarity. It
-also proves the nondegeneracy that the paper derives from Theorem B and most of the paper's other
-results. The numbers of theorems and sections below refer to the paper.
+every cyclic order there is exactly one strictly convex central configuration, up to similarity,
+and at every strictly convex central configuration the Hessian form `Q` is at least a quarter of
+its radial part `K`. It also proves most of the paper's other results. The numbers of theorems and
+sections below refer to the paper.
 
 **Relation to lean4body.** The paper cites
 [tejasvi/lean4body](https://github.com/tejasvi/lean4body), release v1.0 (commit `58ac0fbf4d66`),
-which formalizes Theorems A and B. This repository is the same development with one change of
-substance. Its computer-assisted step proves `tr S < 127/128` where lean4body's proves `tr S < 3/4`,
-so it proves `Q ≥ K/128` (`theoremB_weak`) in place of Theorem B's `Q ≥ K/4`. Every use of Theorem B
-in the development needs only `Q ≥ cK` for some `c > 0`, so Theorem A and the rest go through
-unchanged; **Theorem B itself, with its constant `1/4`, is formalized in lean4body and not here.**
-With the weaker bound the certificates can be much coarser: Lean's kernel replays the whole proof in
-3 hours, against 8 hours for lean4body, which brings the check within the time and memory limits of
-the verification of the [Palomar](https://palomar-registry.org) registry (see
-[Comparator](#comparator)). The other differences are listed under
+which formalizes the same theorems. This repository is the same development, with the same
+statements and the same constant `1/4` in Theorem B, and with its computer-assisted step rebuilt:
+the grids are coarser, a cell may be certified piecewise, a new generator finds the hints, and
+every file uses the module system. This brings the check within the time and memory limits of the
+verification of the [Palomar](https://palomar-registry.org) registry (see
+[Comparator](#comparator)). The differences are listed under
 [Differences from lean4body](#differences-from-lean4body).
 
 * **Theorem A.** For every choice of four positive masses and every cyclic order there is exactly
   one strictly convex central configuration, up to similarity. Up to orientation-preserving
   similarity there are exactly two, mirror images of each other, and they depend real-analytically
   on the masses.
-* **Theorem B, weak form.** At every strictly convex central configuration of four positive
-  masses, `Q ≥ K/128` as quadratic forms (the paper's Theorem B: `Q ≥ K/4`).
+* **Theorem B.** At every strictly convex central configuration of four positive masses,
+  `Q ≥ K/4` as quadratic forms.
 * **Nondegeneracy.** Every strictly convex central configuration of four positive masses is a
   nondegenerate local minimum of `U I^{1/2}` on the shape space, with Morse index 0. Lean builds
   the shape space as a compact real-analytic manifold.
@@ -38,9 +36,9 @@ the verification of the [Palomar](https://palomar-registry.org) registry (see
   `Q = K - |σ| |L|²`), Corollary 3.2 (Palmore's bound on the Morse index) and Lemmas 4.1 and 4.2
   (the Dziobek function and the normal form of Corbera, Cors and Roberts).
 
-The constant `1/4` of Theorem B, Corollary C(iv) and the last sentence of Corollary C(iii), which
-use results of Moeckel, and Proposition 7.2 on the limits at the corner are not formalized here;
-the complete list is under [Not formalized](#not-formalized).
+Corollary C(iv) and the last sentence of Corollary C(iii), which use results of Moeckel, and
+Proposition 7.2 on the limits at the corner are not formalized here; the complete list is under
+[Not formalized](#not-formalized).
 
 None of the statements has hypotheses beyond those of the paper, and the development contains no
 `sorry`. The proofs use only Lean's three standard axioms (`propext`, `Classical.choice`,
@@ -48,6 +46,10 @@ None of the statements has hypotheses beyond those of the paper, and the develop
 by Lean's kernel with `decide +kernel`, not by compiled code (see [Trust base](#trust-base)). Two
 other type checkers for Lean, nanoda and con-ron, also accept the proof (see
 [Independent checks](#independent-checks)).
+
+The previous commit of this repository, `9da70faf3423`, is version 1 of its Palomar entry
+`PALOMAR-2026-10-02-000011`. It certified only `tr S < 127/128` and so proved Theorem B only in the
+weaker form `Q ≥ K/128`. This commit certifies `tr S < 3/4`, as lean4body and the paper do.
 
 ## Main statements
 
@@ -115,15 +117,14 @@ def SimilarOP (q q' : Conf) : Prop :=
   (`r_ij` for `i ≠ j`, `I` and `M`) are nonzero at every collision-free configuration of positive
   masses.
 
-### Theorem A, and Theorem B in a weak form
+### Theorems A and B
 
-The weak form of Theorem B: at a strictly convex CC of positive masses, `K(v)/128 ≤ Q(v)` for
-every variation `v`.
+Theorem B: at a strictly convex CC of positive masses, `K(v)/4 ≤ Q(v)` for every variation `v`.
 
 ```lean
 -- C4/TheoremB.lean
-theorem C4.theoremB_weak (m : Masses) (hm : ∀ i, 0 < m i) (q : Conf) (hcc : IsCC m q)
-    (hconv : IsConvex q) (v : Conf) : hessK m q v / 128 ≤ hessQ m q v
+theorem C4.theoremB (m : Masses) (hm : ∀ i, 0 < m i) (q : Conf) (hcc : IsCC m q)
+    (hconv : IsConvex q) (v : Conf) : hessK m q v / 4 ≤ hessQ m q v
 ```
 
 Theorem A for the cyclic order `(1234)`: for positive masses there is a CC with this cyclic order,
@@ -410,10 +411,8 @@ theorem C4.corollaryD_c (m : Masses) (hm : ∀ i, 0 < m i) (q : Conf) (hcc : IsC
 
 ### Not formalized
 
-* The constant `1/4` of Theorem B: the certificates here prove `tr S < 127/128`, which gives
-  `Q ≥ K/128` (`theoremB_weak`). lean4body v1.0 certifies `tr S < 3/4`, which gives `Q ≥ K/4`.
-  Neither formalizes the bound `Q ≥ 13K/32` of Section 5.6, which comes from the runs of the second
-  implementation at the threshold `19/32`.
+* The bound `Q ≥ 13K/32` of Section 5.6, which comes from the runs of the second implementation
+  at the threshold `19/32`.
 * The identification `𝒮 ≅ ℂP²` of Section 2.2, which nothing uses.
 * The rank and the image of `ṙ` in Lemma 2.4.
 * Corollary C(iv) and the last sentence of Corollary C(iii), the Morse-theoretic count, which use
@@ -423,27 +422,27 @@ theorem C4.corollaryD_c (m : Masses) (hm : ∀ i, 0 < m i) (q : Conf) (hcc : IsC
 
 ## Proof outline
 
-**The weak form of Theorem B** ([`C4/TheoremB.lean`](C4/TheoremB.lean)):
+**Theorem B** ([`C4/TheoremB.lean`](C4/TheoremB.lean)):
 
 1. Reduce to a normal form with `r_12` the longest side (`Normalize`, `NormalForm`).
 2. Apply Dziobek's relations with `σ < 0` (`Dziobek`).
 3. Bound the region of normal forms (`Chart`).
-4. On that region, `tr S(y) < 127/128` at some `y` (`Cap`, from the certificates).
+4. On that region, `tr S(y) < 3/4` at some `y` (`Cap`, from the certificates).
 5. The majorant `Q ≥ (1 - tr S(y)) K` (`Majorant`) and `K ≥ 0` finish the proof.
 
 **Theorem A** ([`C4/TheoremA.lean`](C4/TheoremA.lean)), the paper's covering argument:
 
 1. The CCs in the slice `q₁ = (0,0)`, `q₂ = (1,0)`, which is one chart of `𝒮`, are the zeros of
    a `C¹` map `Rmap` (`Slice`, `SliceCC`, `SliceSmooth`).
-2. By the weak form of Theorem B, its `u`-derivative is injective (`SlicePhi`, `SliceDeriv`). So
+2. By Theorem B, its `u`-derivative is injective (`SlicePhi`, `SliceDeriv`). So
    the projection `pr : 𝒵 → 𝓜` to the masses is a local homeomorphism (`Local`, via the implicit
    function theorem).
 3. `pr` is proper (`Proper`). The ingredients are:
    * Shub's lemma with varying masses (`Shub`, `SliceLimit`);
    * no three bodies of a non-collinear CC on a line (`NoCollinear`);
-   * convex CCs do not accumulate at collinear CCs, by the weak form of Theorem B (`Collinear`,
-     `HessCont`): at a collinear CC a perpendicular move of the extreme body has `K = 0` and
-     `Q < 0`, which contradicts `Q ≥ K/128` in the limit. This is the paper's Lemma 6.3.
+   * convex CCs do not accumulate at collinear CCs, by Theorem B (`Collinear`, `HessCont`): at a
+     collinear CC a perpendicular move of the extreme body has `K = 0` and `Q < 0`, which
+     contradicts `Q ≥ K/4` in the limit. This is the paper's Lemma 6.3.
 4. A proper local homeomorphism onto a connected space has fibres of constant size (`Count`),
    derived from Mathlib's theorem that a proper local homeomorphism is a covering map.
 5. For four equal masses the fibre is the square alone (`albouy_square`). The paper cites Albouy,
@@ -461,7 +460,7 @@ Steps 1, 4 and 5 are the three differences from the paper that Section 6.2 lists
 1. `F` is smooth on the collision-free configurations. At a CC, `DF(q) = 0` and
    `D²F(q)[v, v] = I^{1/2} Q(v - α q)` with `α = Σᵢ mᵢ ⟨qᵢ - c, vᵢ⟩ / I` (`hessian_fUI`, from
    `hasDerivAt_UI` and `hasDerivAt_pairing` in `SlicePhi`).
-2. By `Q ≥ K/128` and `K ≥ 0`, `D²F(q)` is positive semidefinite. If `D²F(q)[v, v] = 0` then
+2. By `Q ≥ K/4` and `K ≥ 0`, `D²F(q)` is positive semidefinite. If `D²F(q)[v, v] = 0` then
    `K(v - α q) = 0`, so no edge length changes to first order, and `v - α q` is an infinitesimal
    rigid motion (`rigidity`, the paper's Lemma 2.4). So the radical is `simTangent q`
    (`hess_psd_radical`).
@@ -489,7 +488,7 @@ Steps 1, 4 and 5 are the three differences from the paper that Section 6.2 lists
    `hess_chart_eq`). `DΦ(q)` maps `W` bijectively onto `ℝ⁴` (`dproj_bijOn`), and on `W`,
    `D²F(q) = I^{1/2} Q` (`hessian_fUI_W`); this is `shape_hessian`. `shape_index` and
    `shape_nondegenerate_iff` compare the negative definite subspaces and the radicals of the two
-   forms. `convex_shape_min` follows from `Q ≥ K/128`, `rigidity` and the second-derivative test
+   forms. `convex_shape_min` follows from `Q ≥ K/4`, `rigidity` and the second-derivative test
    `strict_min_of_hess`.
 
 **The set `𝓔`** ([`C4/NormalSet.lean`](C4/NormalSet.lean)): `dziobekFn_w` computes the numbers
@@ -502,7 +501,7 @@ of `𝓔` with the same `massMap` give counterclockwise CCs of the same masses w
 (`similarOP_of_orient`), and `normal_injective` shows that the two points are equal.
 
 **Analytic dependence** ([`C4/Analytic.lean`](C4/Analytic.lean)): `Rmap` is real analytic
-(`Rmap_contDiffAt_omega`), and by the weak form of Theorem B its partial derivative in `u` is
+(`Rmap_contDiffAt_omega`), and by Theorem B its partial derivative in `u` is
 invertible at the CCs. The implicit function theorem for `C^ω` maps
 (`ContDiffAt.implicitFunction` with `n = ω`) gives a real-analytic solution near every positive
 mass vector, and by Theorem A it is the unique CC in the slice. Relabelling the bodies gives every
@@ -531,7 +530,7 @@ with `K ≥ 0`, and `L(q) = 0`.
 
 [`Axioms.lean`](Axioms.lean) prints the axioms of the theorems named under
 [Main statements](#main-statements), of seven intermediate results, of `C4.dir_cap` and `C4.ch_cap`
-(the bound `tr S < 127/128`), and of `C4.dirCover` and `C4.chCover`, which collect the certificates.
+(the bound `tr S < 3/4`), and of `C4.dirCover` and `C4.chCover`, which collect the certificates.
 For `dirCover` and `chCover` the list is `propext` alone, and for each of the others it is exactly
 `propext`, `Classical.choice` and `Quot.sound` ([`logs/axioms.log`](logs/axioms.log); the command is
 under [Building](#building)).
@@ -541,27 +540,27 @@ No source file (`C4/`, `C4Check/`, `C4Cert/`, `Gen.lean`, `Cut.lean`) uses `sorr
 is set. Besides the options in `lakefile.toml`, the only options set are `Elab.async false` (in the
 certificate modules) and `exponentiation.threshold`.
 
-**The certificates.** The certificates are the 3875 theorems in [`C4Cert/`](C4Cert), in 203 modules:
-`Dir000`–`Dir178` for the 20 × 14 × 28 = 7840 cells of the direct region `Ω_dir`, cubes of side
-`1/16`, and `Ch000`–`Ch023` for the 4 × 48 × 48 = 9216 cells of the region `Ω_ch` of the blow-up
+**The certificates.** The certificates are the 7307 theorems in [`C4Cert/`](C4Cert), in 185 modules:
+`Dir000`–`Dir169` for the 20 × 14 × 28 = 7840 cells of the direct region `Ω_dir`, cubes of side
+`1/16`, and `Ch000`–`Ch014` for the 4 × 48 × 48 = 9216 cells of the region `Ω_ch` of the blow-up
 chart, boxes of sides `1/32 × 1/16 × 1/16`. [`C4Check/Grid.lean`](C4Check/Grid.lean) defines the
 cells. A box is `Certified` if the branch and bound `checkBoxH` succeeds on it with some hint, or if
 both halves of one of its splits are `Certified`. Most cells are checked in runs of consecutive
 cells,
 
 ```lean
-theorem c0 : allCells dirCell 0 93 [0, 0, …] = true := by
+theorem c0 : allCells dirCell 0 265 [0, 0, …] = true := by
   decide +kernel
 ```
 
 which says that `checkBoxH` succeeds on each cell of the run with the hint listed for it. A cell
 that takes longer than about 3 s to check is cut along the splits of its hint into pieces that
-each take at most about 3 s (51 single boxes with no split take up to about 4 s), and each piece
+each take at most about 3 s (44 single boxes with no split take up to about 4 s), and each piece
 is a theorem about its box:
 
 ```lean
 theorem k400_0 : (checkBoxH dirMode depth (splitBox (dirCellBox 400) 2).1
-      86714…).isSome = true := by
+      55503…).isSome = true := by
   decide +kernel
 ```
 
@@ -584,7 +583,7 @@ and checks every step, so a wrong hint can only make a certificate fail.
 * the slope jets (`JetSound`, `Carrier`);
 * the replay of a hint (`SearchSound`) and the formulas of the two computations (`ModeSound`);
 * the covering of the two regions by the cells and of a split box by its halves, and the
-  conclusion `tr S(y) < 127/128` (`Cap`).
+  conclusion `tr S(y) < 3/4` (`Cap`).
 
 The certificate formulas are written once, generically over an `Ops α` class
 ([`C4Check/Formulas.lean`](C4Check/Formulas.lean)). The mathematics uses the same formulas at `ℝ`,
@@ -605,20 +604,21 @@ The toolchain is `leanprover/lean4:v4.35.0-rc3`, with Mathlib at the matching ta
 
 ```bash
 lake exe cache get                                # fetch the Mathlib build cache
-lake build > logs/build.log 2>&1                  # 13 min
-lake env lean Axioms.lean > logs/axioms.log       # 9 s
+lake build > logs/build.log 2>&1                  # 12 min
+lake env lean Axioms.lean > logs/axioms.log       # 3 s
 ```
 
-In the build of [`logs/build.log`](logs/build.log), on a machine with 32 hardware threads and 128 GB
-of memory, with `LEAN_NUM_THREADS=16` so that lake checked at most 16 modules at a time, the build
-took 13 minutes and 2.8 hours of processor time (lean4body's certificates alone took 7.6 hours), the
-slowest module, `C4Cert.Dir083`, took 93 s, and no process needed more than 3.6 GB of memory.
+In the build of [`logs/build.log`](logs/build.log), on a machine with 384 hardware threads and 707
+GB of memory, which was also running other jobs, with `LEAN_NUM_THREADS=16` so that lake checked at
+most 16 modules at a time, the build took 12 minutes and 2.8 hours of processor time (lean4body's
+certificates alone took 7.6 hours, on another machine), the slowest module, `C4Cert.Ch001`, took 112
+s, and no process needed more than 3.4 GB of memory.
 
 ## Comparator
 
 [`Challenge.lean`](Challenge.lean) is the statement file. It imports only Mathlib, copies the
-definitions that the statements use, and states, without proofs, the five theorems that
-`lake comparator` checks: `C4.theoremA_slice`, `C4.theoremA`, `C4.theoremA_cyclic`,
+definitions that the statements use, and states, without proofs, the six theorems that
+`lake comparator` checks: `C4.theoremA_slice`, `C4.theoremA`, `C4.theoremA_cyclic`, `C4.theoremB`,
 `C4.nondegenerate` and `C4.convex_count`. [`Solution.lean`](Solution.lean) imports their proofs, and
 [`comparator.json`](comparator.json) names them. `lake comparator` builds the two modules, checks
 that the statements and every definition they reach are the same in the two, that the proofs use
@@ -627,13 +627,14 @@ nanoda; the registry's verification also replays it in con-ron.
 [`formalization.yaml`](formalization.yaml) describes the project for the Palomar registry.
 
 `lake comparator`, run the way the registry's verification runs it (on 16 hardware threads, over
-exports made by `leanexport`, with nanoda and con-ron as external kernels), accepted the Solution in
-4 hours 23 minutes: 34 minutes and at most 8.5 GB of memory for con-ron, 46 minutes and 1.6 GB for
-nanoda, and 3 hours 2 minutes and 1.0 GB for Lean's kernel (`leanchecker`, which is
-single-threaded). With the build, that is 4.6 hours; the registry's limits, at the time of writing,
-are 5.5 hours for the whole verification job, 16 processors and 32 GB of memory. On a port of
-lean4body to the module system, `leanchecker` alone took 8 hours, and con-ron needed more than the
-32 GB.
+exports made by `leanexport`, with nanoda and con-ron as external kernels), accepted the Solution.
+Con-ron needed at most 8.5 GB of memory, nanoda 1.8 GB and Lean's kernel (`leanchecker`, which is
+single-threaded) 1.1 GB. Run side by side with the previous commit on the two hardware threads of
+one processor core, `leanchecker` took 1.8 times as long for this one (17,752 s against 9,855 s);
+the registry's verification of the previous commit took 2.5 hours. The registry's limits, at the
+time of writing, are 5.5 hours for the whole verification job, 16 processors and 32 GB of memory.
+On a port of lean4body to the module system, `leanchecker` alone took 8 hours, and con-ron needed
+more than the 32 GB.
 
 ## Independent checks
 
@@ -643,9 +644,9 @@ has its own arithmetic of natural numbers, on the Rust library num-bigint rather
 the exports written by lean4export (`leanexport`, also in the toolchain). The check has three
 parts:
 
-* **Part A**, the closure of the main theorems, with the 3875 certificates replaced by axioms
+* **Part A**, the closure of the main theorems, with the 7307 certificates replaced by axioms
   of the same names and types.
-* **Part B**, the closure of each of the 203 certificate modules, with only the three
+* **Part B**, the closure of each of the 185 certificate modules, with only the three
   standard axioms.
 * **The glue**, `scripts/export_tools.py glue`: every certificate that part A assumes is proved
   exactly once in part B, with the same type; the declarations that part B shares with part A
@@ -653,7 +654,7 @@ parts:
   a canonical form that does not depend on how an export file numbers its names and terms.
 
 ```bash
-scripts/nanoda_check.sh nanoda-out 16 > logs/nanoda.log 2>&1             # 18 min
+scripts/nanoda_check.sh nanoda-out 16 > logs/nanoda.log 2>&1             # 9 min
 python3 scripts/nanoda_control.py nanoda-out > logs/nanoda_control.log   # 1 min
 ```
 
@@ -662,10 +663,9 @@ a time in part B (default 8). All three parts pass ([`logs/nanoda.log`](logs/nan
 control, [`scripts/nanoda_control.py`](scripts/nanoda_control.py) changes a hint in the statement
 of a certificate, in the export of its module, so that the statement becomes false, and nanoda
 rejects the result ([`logs/nanoda_control.log`](logs/nanoda_control.log)). Since a hint is
-replayed, not trusted, a changed hint can still certify its cell: adding 1 to the hint of the
-control changes only the coordinate along which the cell is first split, and Lean's kernel proves
-the changed statement true. So the control adds the smallest number for which Lean's kernel proves
-the changed statement false, here 2.
+replayed, not trusted, a changed hint can still certify its cell (adding 1 to a hint may change
+only the coordinate along which the cell is first split), so the control adds the smallest number
+for which Lean's kernel proves the changed statement false, here 1.
 
 The comparator run of the previous section also replays the whole proof, certificates included, in
 nanoda and in con-ron, a type checker written in Rust with its own arithmetic of natural numbers.
@@ -677,49 +677,64 @@ memory. So the proofs in [`C4/SearchSound.lean`](C4/SearchSound.lean) decide the
 lemmas `negH_of_ble`, `ifExcl_pos` and `ifExcl_neg`, which state them for a variable interval (see
 also the note in [`C4Check/Search.lean`](C4Check/Search.lean)).
 
+## Continuous integration
+
+The workflow [`.github/workflows/check.yml`](.github/workflows/check.yml) runs on GitHub's hosted
+runners at every push. It builds the repository from source and checks every proof with the three
+kernels that `lake comparator` uses: Lean's own (`leanchecker`), nanoda and con-ron. It splits the
+check as [`scripts/nanoda_check.sh`](scripts/nanoda_check.sh) does:
+
+| Job | What it does |
+|---|---|
+| 20 shards ([`ci/shard.py`](ci/shard.py)), in parallel | each builds about nine certificate modules (Lean's kernel checks each theorem as it is built), exports each module's closure with `leanexport` as part B does, and has Lean's kernel, nanoda and con-ron check the export |
+| final ([`ci/final.py`](ci/final.py)) | puts the shards' build outputs in place and confirms with `lake build --no-build` that lake takes them as up to date; builds the rest with Mathlib from its cache; compares `#print axioms` with [`logs/axioms.log`](logs/axioms.log); has Lean's kernel and nanoda check part A; runs the glue; runs [`scripts/nanoda_control.py`](scripts/nanoda_control.py) and requires all three kernels to reject the changed certificate |
+
+Con-ron declines any axiom but the standard three, so it checks the certificates, in part B, but
+not part A, which takes them as axioms. [`ci/shards.txt`](ci/shards.txt) lists the modules of each
+shard, balanced by [`ci/make_shards.py`](ci/make_shards.py) from the times in
+[`logs/build.log`](logs/build.log). The runs are listed under the repository's Actions tab. The
+artifacts of a run hold every module's export, each kernel's log and the time and peak memory of
+every step; the final job's artifact holds its `summary.md`.
+
 ## Regenerating the certificates
 
 ```bash
-lake exe gen ch ch.txt                     # the hints of the blow-up chart; 1 min
-lake exe gen dir dir.txt                   # the hints of the direct region; 15 min
-lake exe cut ch ch.txt ch.cut 4000         # 2 s
-lake exe cut dir dir.txt dir.cut 4000      # 13 s
+lake exe gen ch ch.txt                     # the hints of the blow-up chart; 2 min
+lake exe gen dir dir.txt                   # the hints of the direct region; 51 min
+lake exe cut ch ch.txt ch.cut 4000         # under 1 s
+lake exe cut dir dir.txt dir.cut 4000      # 6 s
 python3 scripts/mkcert.py dir.cut ch.cut   # under 1 s
 ```
 
 `gen` and `cut` run the cells in parallel; the times are on the machine of [Building](#building),
-where `gen dir` kept about 23 threads busy (5.8 h of CPU time).
+with `LEAN_NUM_THREADS=64`, where `gen dir` took 33 hours of processor time.
 
 `gen` runs the search in the arithmetic of the checker and replays every hint before writing it.
-`cut` replays the hints again and predicts the kernel time of every box of each cell's tree of
-splits, in units of about 0.75 s; a cell over 4 units is cut into the top-most boxes of its tree
-that are under 4 units (a single box of the tree that is over 4 units stays one piece).
-[`scripts/mkcert.py`](scripts/mkcert.py) groups the light cells into runs of at most 4 units and
-the runs and pieces into modules of at most 60 units (four heavy cells, of 97 to 114 units, have a
-module each), and writes `C4Cert/*.lean`. The three programs are deterministic: run again, they
-write the same hints and the same files `C4Cert/*.lean`.
+Where the `y` chosen at the centre of a box does not certify the box, it searches the hint fields of
+`y` for one that does. `cut` replays the hints again and predicts the kernel time of every box of
+each cell's tree of splits, in units of about 0.75 s; a cell over 4 units is cut into the top-most
+boxes of its tree that are under 4 units (a single box of the tree that is over 4 units stays one
+piece). [`scripts/mkcert.py`](scripts/mkcert.py) groups the light cells into runs of at most 4 units
+and the runs and pieces into modules of at most 120 units (ten heavy cells, of 122 to 243 units,
+have a module each), and writes `C4Cert/*.lean`. The three programs are deterministic: run again,
+they write the same hints and the same files `C4Cert/*.lean`.
 
 ## Differences from lean4body
 
 The development is lean4body's at commit `58ac0fbf4d66` (directory `C4`), with these changes:
 
-* **The threshold.** `thresh` in [`C4Check/Search.lean`](C4Check/Search.lean) is `127/128` in place
-  of `3/4`, so `Cap` proves `tr S < 127/128`, and [`C4/TheoremB.lean`](C4/TheoremB.lean) proves
-  `theoremB_weak` (`Q ≥ K/128`) in place of `theoremB` (`Q ≥ K/4`). The four files that used
-  `theoremB` (`Collinear`, `Nondegenerate`, `ShapeHess` and `SliceDeriv`) use `theoremB_weak`, with
-  `128` in place of `4`.
 * **The certificates.** The grids are coarser (cells of side `1/16` in place of `1/32` in the direct
   region, and `1/32 × 1/16 × 1/16` in place of `1/64 × 1/32 × 1/32` in the blow-up chart), a cell
   may be certified piecewise (`Certified`), and every certificate theorem has a predicted cost of at
-  most 4 units, about 3 s in Lean's kernel, except 51 single leaf boxes of up to 5.65 units, which
+  most 4 units, about 3 s in Lean's kernel, except 44 single leaf boxes of up to 4.90 units, which
   have no split to cut along. The generator `Gen.lean` is a new, greedy search, and `Cut.lean` is
   new. In the proofs, only [`C4/Cap.lean`](C4/Cap.lean) changes for the certificates: the coarser
   grids, and `certified_sound`, which turns a `Certified` cell into a statement about the real
   functions.
-* **The module system and Comparator.** Every file uses `module`. `Challenge.lean`,
-  `Solution.lean`, `comparator.json` and `formalization.yaml` are new, and `Order1234`, `qs`,
-  `Opos` and `Mpos` moved to `C4/Defs.lean` so that the Challenge's definitions are in one module
-  of the development.
+* **The module system, Comparator and the continuous integration.** Every file uses `module`.
+  `Challenge.lean`, `Solution.lean`, `comparator.json`, `formalization.yaml`, `ci/` and
+  `.github/workflows/check.yml` are new, and `Order1234`, `qs`, `Opos` and `Mpos` moved to
+  `C4/Defs.lean` so that the Challenge's definitions are in one module of the development.
 * **Removed.** The Python programs, the certificate files of the paper's program and the scripts
   that check them, which are in lean4body; `scripts/build_certs.sh`, which the smaller certificates
   no longer need.

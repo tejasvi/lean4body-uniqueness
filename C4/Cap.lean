@@ -14,7 +14,7 @@ pieces of a split of it, with the recorded hints.  `checkBoxH_sound` turns each 
 statement about the real functions (`certified_sound`), and the cells cover the two regions.
 
 * `dir_cap`: on `[1/2, 7/4] × [1/8, 1] × [0, 7/4]`, every feasible zero of `dirP` with `|x| ≤ 1`
-  has a `y` with `tr S(y) < 127/128`;
+  has a `y` with `tr S(y) < 3/4`;
 * `ch_cap`: the same on `[0, 1/8] × [-2, 1] × [0, 3]` for the blow-up chart.
 -/
 
@@ -126,7 +126,7 @@ theorem dirBox_mem {i j k : ℕ} {a b c : ℝ} (hi : i < 20) (hj : j < 14) (hk :
 theorem dir_cap_of (hC : Cover dirMode dirCellBox 0 7840) {a b c x : ℝ} (ha1 : 1 / 2 ≤ a)
     (ha2 : a ≤ 7 / 4) (hb1 : 1 / 8 ≤ b) (hb2 : b ≤ 1) (hc1 : 0 ≤ c) (hc2 : c ≤ 7 / 4)
     (hx1 : -1 ≤ x) (hx2 : x ≤ 1) (hG : ∀ i, 0 ≤ (dirGR a b c x).get i) (hP : dirPR a b c x = 0) :
-    ∃ y0 y1, trSR (dirCertR a b c x) y0 y1 < 127 / 128 := by
+    ∃ y0 y1, trSR (dirCertR a b c x) y0 y1 < 3 / 4 := by
   obtain ⟨i, hi, hi1, hi2⟩ := cell_of (N := 20) (t := 16 * a - 8) (by norm_num) (by linarith)
     (by push_cast; linarith)
   obtain ⟨j, hj, hj1, hj2⟩ := cell_of (N := 14) (t := 16 * b - 2) (by norm_num) (by linarith)
@@ -145,7 +145,7 @@ theorem dir_cap_of (hC : Cover dirMode dirCellBox 0 7840) {a b c x : ℝ} (ha1 :
 theorem dir_cap {a b c x : ℝ} (ha1 : 1 / 2 ≤ a) (ha2 : a ≤ 7 / 4) (hb1 : 1 / 8 ≤ b) (hb2 : b ≤ 1)
     (hc1 : 0 ≤ c) (hc2 : c ≤ 7 / 4) (hx1 : -1 ≤ x) (hx2 : x ≤ 1)
     (hG : ∀ i, 0 ≤ (dirGR a b c x).get i) (hP : dirPR a b c x = 0) :
-    ∃ y0 y1, trSR (dirCertR a b c x) y0 y1 < 127 / 128 :=
+    ∃ y0 y1, trSR (dirCertR a b c x) y0 y1 < 3 / 4 :=
   dir_cap_of dirCover ha1 ha2 hb1 hb2 hc1 hc2 hx1 hx2 hG hP
 
 /-! ## the blow-up grid -/
@@ -160,7 +160,7 @@ theorem chBox_mem {i j k : ℕ} {b al ga : ℝ} (hi : i < 4) (hj : j < 48) (hk :
 theorem ch_cap_of (hC : Cover chMode chCellBox 0 9216) {b al ga xi : ℝ} (hb1 : 0 ≤ b)
     (hb2 : b ≤ 1 / 8) (hal1 : -2 ≤ al) (hal2 : al ≤ 1) (hga1 : 0 ≤ ga) (hga2 : ga ≤ 3)
     (hG : ∀ i, 0 ≤ (chGR b al ga xi).get i) (hP : chPR b al ga xi = 0) :
-    ∃ Y0 Y1, trSR (chCertR b al ga xi) Y0 Y1 < 127 / 128 := by
+    ∃ Y0 Y1, trSR (chCertR b al ga xi) Y0 Y1 < 3 / 4 := by
   obtain ⟨i, hi, hi1, hi2⟩ := cell_of (N := 4) (t := 32 * b) (by norm_num) (by linarith)
     (by push_cast; linarith)
   obtain ⟨j, hj, hj1, hj2⟩ := cell_of (N := 48) (t := 16 * al + 32) (by norm_num) (by linarith)
@@ -179,7 +179,7 @@ theorem ch_cap_of (hC : Cover chMode chCellBox 0 9216) {b al ga xi : ℝ} (hb1 :
 theorem ch_cap {b al ga xi : ℝ} (hb1 : 0 ≤ b) (hb2 : b ≤ 1 / 8) (hal1 : -2 ≤ al) (hal2 : al ≤ 1)
     (hga1 : 0 ≤ ga) (hga2 : ga ≤ 3) (hG : ∀ i, 0 ≤ (chGR b al ga xi).get i)
     (hP : chPR b al ga xi = 0) :
-    ∃ Y0 Y1, trSR (chCertR b al ga xi) Y0 Y1 < 127 / 128 :=
+    ∃ Y0 Y1, trSR (chCertR b al ga xi) Y0 Y1 < 3 / 4 :=
   ch_cap_of chCover hb1 hb2 hal1 hal2 hga1 hga2 hG hP
 
 end

@@ -4,25 +4,22 @@ version: "v0.4"
 project:
   name: "Uniqueness of four-body convex central configurations for all masses"
   description: >-
-    A Lean 4 and Mathlib formalization of Theorem A of arXiv:2609.35632 on the
-    central configurations of the planar Newtonian four-body problem. For every
+    A Lean 4 and Mathlib formalization of Theorems A and B of arXiv:2609.35632 on
+    the central configurations of the planar Newtonian four-body problem. For every
     choice of four positive masses and every cyclic order of the bodies there is
     exactly one strictly convex central configuration with that cyclic order, up to
     similarity, so there are exactly three convex central configurations up to
     similarity. This answers Problem 10 in the list of Albouy, Cabral and Santos
     (2012). The main step of the paper is Theorem B: at every strictly convex
     central configuration of positive masses, the Hessian form Q of U + (λ/2)I is
-    at least one quarter of its radial part K. This formalization proves the weaker
-    bound Q ≥ K/128 (C4.theoremB_weak), which is all that the proof of Theorem A
-    uses; Theorem B with the constant 1/4 is formalized in lean4body, release v1.0,
-    which the paper cites. It follows that every convex central configuration is a
-    nondegenerate local minimum of U I^(1/2), whose Hessian vanishes exactly on the
-    tangent space of the orbit of the similarities. The computer-assisted step, a
-    branch and bound with interval arithmetic over the three-dimensional set of
-    normalized convex central configurations in the coordinates of Corbera, Cors
-    and Roberts, proves tr S < 127/128 and is checked by Lean's kernel with
-    `decide +kernel` in 3875 certificate theorems. No compiled code is trusted, and
-    the proofs use only Lean's three standard axioms.
+    at least one quarter of its radial part K. It follows that every convex central
+    configuration is a nondegenerate local minimum of U I^(1/2), whose Hessian
+    vanishes exactly on the tangent space of the orbit of the similarities. The
+    computer-assisted step, a branch and bound with interval arithmetic over the
+    three-dimensional set of normalized convex central configurations in the
+    coordinates of Corbera, Cors and Roberts, proves tr S < 3/4 and is checked by
+    Lean's kernel with `decide +kernel` in 7307 certificate theorems. No compiled
+    code is trusted, and the proofs use only Lean's three standard axioms.
   authors:
     - "Tejasvi Singh Tomar"
   license: "Apache-2.0"
@@ -45,9 +42,9 @@ sources:
     note: >-
       The paper and this formalization have the same author. Section 6.2 of the
       paper describes the formalization in lean4body (release v1.0, commit
-      58ac0fbf4d66), which its first version cites. This repository is the same
-      development with a weaker computer-assisted bound, tr S < 127/128 in place of
-      tr S < 3/4, so it proves Q ≥ K/128 in place of Theorem B's Q ≥ K/4.
+      58ac0fbf4d66), which its first version cites. This repository proves the
+      same statements, with the computer-assisted step rebuilt so that the
+      registry's verification can check it.
   - title: "Some problems on the classical n-body problem"
     authors:
       - "Alain Albouy"
@@ -109,27 +106,23 @@ related_formalizations:
     note: >-
       lean4body, release v1.0, cited by the paper: Theorems A and B, with the
       constant 1/4 of Theorem B, certified by 3418 theorems that prove tr S < 3/4.
-      This repository adapts it: the threshold of the certificates is 127/128, the
-      grids are coarser, a cell may be certified piecewise, and every file uses the
-      module system. The proofs outside the certificates are the same, with
-      C4.theoremB_weak in place of C4.theoremB.
+      This repository adapts it: the grids are coarser, a cell may be certified
+      piecewise, a new generator finds the hints, and every file uses the module
+      system. The statements and the proofs outside the certificates are the same.
 
 status:
   scope: >-
-    Formalized: Theorem A of the paper; Theorem B in the weaker form Q ≥ K/128
-    (C4.theoremB_weak); the nondegeneracy of the convex central configurations on
-    the configuration space, in the slice q₁ = (0,0), q₂ = (1,0), and on the shape
-    space, which Lean builds as a compact real-analytic manifold; Corollary
-    C(i)–(iii) except the last sentence of C(iii); Corollary D; and the
-    preliminaries (Lemmas 2.1–2.6, Proposition 2.7, Proposition 3.1, Corollary 3.2,
-    Lemmas 4.1 and 4.2). The Comparator configuration compares five of these
-    statements: C4.theoremA_slice, C4.theoremA, C4.theoremA_cyclic,
-    C4.nondegenerate and C4.convex_count; README.md lists the others. Not
-    formalized here: the constant 1/4 of Theorem B (the certificates prove
-    tr S < 127/128, which gives Q ≥ K/128; lean4body v1.0 certifies tr S < 3/4,
-    which gives Q ≥ K/4); Corollary C(iv) and the last sentence of Corollary
-    C(iii), which use results of Moeckel on collinear central configurations and on
-    the topology of the shape space; the identification of the shape space with
+    Formalized: Theorems A and B of the paper; the nondegeneracy of the convex
+    central configurations on the configuration space, in the slice q₁ = (0,0),
+    q₂ = (1,0), and on the shape space, which Lean builds as a compact
+    real-analytic manifold; Corollary C(i)–(iii) except the last sentence of
+    C(iii); Corollary D; and the preliminaries (Lemmas 2.1–2.6, Proposition 2.7,
+    Proposition 3.1, Corollary 3.2, Lemmas 4.1 and 4.2). The Comparator
+    configuration compares six of these statements: C4.theoremA_slice,
+    C4.theoremA, C4.theoremA_cyclic, C4.theoremB, C4.nondegenerate and
+    C4.convex_count; README.md lists the others. Not formalized here: Corollary
+    C(iv) and the last sentence of Corollary C(iii), which use results of Moeckel
+    on collinear central configurations and on the topology of the shape space; the identification of the shape space with
     CP², which nothing uses; the rank and the image of ṙ in Lemma 2.4; Remarks
     3.3(ii) and 4.3; Proposition 7.2 (the limits at the corner); and the bound
     Q ≥ 13K/32 of Section 5.6, which comes from the second, unformalized program.
@@ -149,6 +142,11 @@ status:
       comparator_config: "comparator.json"
     - declaration: "C4.theoremA_cyclic"
       file: "C4/TheoremA.lean"
+      sorry_count: 0
+      axioms: [propext, Classical.choice, Quot.sound]
+      comparator_config: "comparator.json"
+    - declaration: "C4.theoremB"
+      file: "C4/TheoremB.lean"
       sorry_count: 0
       axioms: [propext, Classical.choice, Quot.sound]
       comparator_config: "comparator.json"
@@ -177,8 +175,6 @@ automation:
 
 fidelity:
   divergences: >-
-    Theorem B is formalized only in the weaker form Q ≥ K/128 (C4.theoremB_weak),
-    which is not compared; the paper's Q ≥ K/4 is formalized in lean4body v1.0.
     Bodies are indexed by Fin 4, so the paper's bodies 1, 2, 3, 4 are 0, 1, 2, 3,
     and a configuration is a map Fin 4 → ℝ × ℝ. Division is total in Lean
     (x / 0 = 0); the quantities divided by in the definitions (r_ij for i ≠ j, I and
@@ -202,10 +198,13 @@ review:
     (scripts/nanoda_check.sh), which also rejects a certificate in which one number
     is changed (scripts/nanoda_control.py). lake comparator, run locally the way the
     Palomar registry's verification runs it (16 hardware threads, nanoda and con-ron
-    as external kernels), accepts the Solution; README.md gives the times and
-    memory. The computation of Proposition 5.1 of the paper, which proves the
-    stronger bound tr S < 3/4, was repeated with a second, independently written
-    program (Section 5.6 of the paper), which is not part of the Lean proof.
+    as external kernels), accepts the Solution; README.md gives the memory it
+    needed and how its time compares with version 1. A continuous-integration
+    workflow (.github/workflows/check.yml) checks the certificates with all three
+    kernels and the main theorems with Lean's kernel and nanoda. The computation of Proposition 5.1 of the paper, which the
+    certificates here redo in Lean, was also repeated with a second, independently
+    written program (Section 5.6 of the paper), which is not part of the Lean
+    proof.
 
 alignment:
   namespace: "C4"
@@ -233,11 +232,10 @@ alignment:
       lean: "C4.convex_count"
       module: "C4.CorollaryC"
       status: proved
-    - source: "Theorem B, in the weaker form Q ≥ K/128 (the paper proves Q ≥ K/4)"
-      lean: "C4.theoremB_weak"
+    - source: "Theorem B: Q ≥ K/4 at every strictly convex central configuration of positive masses"
+      lean: "C4.theoremB"
       module: "C4.TheoremB"
-      status: "proved in a weaker form; not compared"
-      note: "Every use of Theorem B in this development needs only Q ≥ cK for some c > 0. C4.theoremB, with the constant 1/4, is in lean4body v1.0."
+      status: proved
 
 acknowledgements: >-
   The formalization uses Lean 4 and Mathlib. The independent checks use the type

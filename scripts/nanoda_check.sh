@@ -26,7 +26,7 @@ JOBS=${2:-8}
 mkdir -p $OUT/B
 ok=1
 echo "part A: export the closure of the main theorems and check it"
-lake env leanexport C4 -- C4.theoremA C4.theoremA_cyclic C4.theoremA_slice C4.theoremB_weak \
+lake env leanexport C4 -- C4.theoremA C4.theoremA_cyclic C4.theoremA_slice C4.theoremB \
   C4.albouy_square C4.prZ_isProperMap C4.not_collinear_limit C4.nondegenerate \
   C4.nondegenerate_slice C4.theoremA_analytic_slice C4.theoremA_two C4.theoremA_analytic \
   C4.ccr_injective C4.ccr_mass_injective C4.convex_count C4.convex_count_OP \

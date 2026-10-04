@@ -7,14 +7,13 @@ public import Mathlib
 
 The main results of the paper *Uniqueness of four-body convex central configurations for all
 masses* (arXiv:2609.35632), stated with `sorry`. `Solution.lean` imports their proofs from the
-development in `C4/`, and `comparator.json` lists the compared theorems. Theorem B is not among
-them: the certificates here prove `tr S < 127/128` where the paper's prove `tr S < 3/4`, so the
-development proves `Q ≥ K / 128` (`theoremB_weak`) in place of Theorem B's `Q ≥ K / 4`, and the
-weaker bound suffices for the theorems below.
+development in `C4/`, and `comparator.json` lists the compared theorems.
 
 * `theoremA`, `theoremA_cyclic`, `theoremA_slice` (Theorem A): for every choice of four positive
   masses and every cyclic order there is exactly one strictly convex central configuration, up to
   similarity.
+* `theoremB` (Theorem B): at every strictly convex central configuration of four positive masses,
+  `Q ≥ K / 4` as quadratic forms.
 * `nondegenerate`: every strictly convex central configuration is a critical point of
   `U I^{1/2}` whose Hessian is positive semidefinite with radical exactly the tangent space of the
   similarity orbit, and a local minimum.
@@ -112,6 +111,23 @@ def IsCC : Prop :=
   CollisionFree q ∧
     ∃ lam : ℝ, ∀ i, (∑ j, (m i * m j * ss q i j) • (q j - q i)) + (lam * m i) • (q i - cm m q) = 0
 
+/-- `λ = U / I` -/
+noncomputable def lamC : ℝ := Upot m q / Iner m q
+
+/-- `w_ij = s_ij - λ'`, `λ' = λ / M` -/
+noncomputable def wgeo (i j : Fin 4) : ℝ := ss q i j - lamC m q / mtot m
+
+/-- the first variation `ṙ_ij(v) = ⟨q_i - q_j, v_i - v_j⟩ / r_ij` -/
+noncomputable def dr (v : Conf) (i j : Fin 4) : ℝ := dot (q i - q j) (v i - v j) / rr q i j
+
+/-- `K(v) = Σ_e 3 m_i m_j s_e ṙ_e(v)²` -/
+noncomputable def hessK (v : Conf) : ℝ := esum fun i j => 3 * m i * m j * ss q i j * dr q v i j ^ 2
+
+/-- `Q(v) = D²(U + λ I / 2)(q)[v, v] = K(v) - Σ_e m_i m_j w_e |v_i - v_j|²`, with `λ = U / I`
+held fixed (paper, Lemma 2.1(a)) -/
+noncomputable def hessQ (v : Conf) : ℝ :=
+  hessK m q v - esum fun i j => m i * m j * wgeo m q i j * dot (v i - v j) (v i - v j)
+
 end
 
 /-! ## Similarities and the slice -/
@@ -176,6 +192,12 @@ this cyclic order, and every other such CC is similar to it. -/
 theorem theoremA_cyclic (m : Masses) (hm : ∀ i, 0 < m i) (σ : Equiv.Perm (Fin 4)) :
     ∃ q, IsCC m q ∧ Order1234 (q ∘ σ) ∧
       ∀ q', IsCC m q' → Order1234 (q' ∘ σ) → Similar q q' := by
+  sorry
+
+/-- **Theorem B.**  For a convex central configuration `q` of positive masses `m`,
+`Q_q(v) ≥ K_q(v) / 4` for every variation `v`. -/
+theorem theoremB (m : Masses) (hm : ∀ i, 0 < m i) (q : Conf) (hcc : IsCC m q)
+    (hconv : IsConvex q) (v : Conf) : hessK m q v / 4 ≤ hessQ m q v := by
   sorry
 
 /-- **Nondegeneracy on the configuration space.**  At a convex central configuration `q` of positive

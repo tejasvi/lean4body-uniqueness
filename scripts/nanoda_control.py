@@ -4,7 +4,7 @@ nanoda rejects the result.
 
     python3 scripts/nanoda_control.py OUTDIR        (after scripts/nanoda_check.sh OUTDIR)
 
-The certificate is `C4.Cert.Dir000.c15`, the last run of cells of the module `C4Cert.Dir000`, and
+The certificate is `C4.Cert.Dir000.c20`, the last run of cells of the module `C4Cert.Dir000`, and
 the number is the largest natural-number literal of its statement that no other declaration of
 the export uses, a packed hint.  A hint is replayed, not trusted, so a changed hint may still
 certify its cell (adding 1 may change only the coordinate along which the cell is first split).
@@ -22,7 +22,7 @@ sys.dont_write_bytecode = True
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from export_tools import Export, SUB_KEYS, config  # noqa: E402
 
-MODULE, CERT = 'Dir000', 'C4.Cert.Dir000.c15'
+MODULE, CERT = 'Dir000', 'C4.Cert.Dir000.c20'
 AUX = '_private.C4Cert.%s.0.%s.' % (MODULE, CERT)   # the auxiliary theorems are private
 
 

@@ -4,114 +4,210 @@ public import C4Check
 
 public section
 
-/-! Cells `4400 ≤ n < 4428` of the direct grid: `decide +kernel` checks that `checkBoxH` succeeds
+/-! Cells `4573 ≤ n < 4610` of the direct grid: `decide +kernel` checks that `checkBoxH` succeeds
 on each light cell, and on each piece of a heavy one, with its hint. -/
 
 set_option Elab.async false
 
 namespace C4.Cert.Dir146
 
-theorem k4400_0 : (checkBoxH dirMode depth (splitBox (dirCellBox 4400) 2).1
-      87834020161882476165945843239362114648492057747328166794139655713334160843476167675426611886186657294381300703450112394427249947).isSome = true := by
+theorem k4573_0 : (checkBoxH dirMode depth (splitBox (dirCellBox 4573) 2).1
+      16749634831940405203454321411461771543362807801306799242849449975010342670226396252294720982833).isSome = true := by
   decide +kernel
 
-theorem k4400_1 : (checkBoxH dirMode depth (splitBox (splitBox (dirCellBox 4400) 2).2 3).1
-      15850410359398698303547340060350251949173441875897487493699116268843667564703682540742).isSome = true := by
+theorem k4573_1 : (checkBoxH dirMode depth (splitBox (dirCellBox 4573) 2).2
+      301762048462289572173893499340530690608467064434669705824459538815877137899877867960076467330411319907302880049).isSome = true := by
   decide +kernel
 
-theorem k4400_2 : (checkBoxH dirMode depth (splitBox (splitBox (dirCellBox 4400) 2).2 3).2
-      15773513990848101426358740675250209169820247550163037260474262963428908095186004690121).isSome = true := by
+theorem k4574_0 : (checkBoxH dirMode depth (splitBox (dirCellBox 4574) 2).1
+      77152670094036405716015156324345493165021848457930316102332638665011289712194222456978725805267907128600556408627).isSome = true := by
   decide +kernel
 
-theorem k4401_0 : (checkBoxH dirMode depth (splitBox (dirCellBox 4401) 2).1
-      6295030729351169646408734155855752772474534091620165584715349589670548345345157129938421755265228112595611659502943540923185207535521813631346123).isSome = true := by
+theorem k4574_1 : (checkBoxH dirMode depth (splitBox (dirCellBox 4574) 2).2
+      4825594525911586100071542853493334350332875320233702151752736668402655436595195194329354683805695836069124050737).isSome = true := by
   decide +kernel
 
-theorem k4401_1 : (checkBoxH dirMode depth (splitBox (splitBox (dirCellBox 4401) 2).2 3).1
-      62887906298893155660515436684745978387118660084293722321984703265276709322852068266697).isSome = true := by
+theorem k4575_0 : (checkBoxH dirMode depth (splitBox (dirCellBox 4575) 2).1
+      4818569539650327098873007066749404398758848998857127231148014287252547514213623354261539760051840843367078367027).isSome = true := by
   decide +kernel
 
-theorem k4401_2 : (checkBoxH dirMode depth (splitBox (splitBox (dirCellBox 4401) 2).2 3).2
-      15322593173182787808846209390386842957468430173659629357956318011351579869340864882).isSome = true := by
+theorem k4575_1 : (checkBoxH dirMode depth (splitBox (dirCellBox 4575) 2).2
+      63788010310063452752878691265862524614913708947920836304709805641583339841444685862812732).isSome = true := by
   decide +kernel
 
-theorem k4402_0 : (checkBoxH dirMode depth (splitBox (dirCellBox 4402) 2).1
-      21265200296882517593243740123315677913005746827488084457273997572230485874549725407024591656872353209584942127389406031164871).isSome = true := by
+theorem k4576_0 : (checkBoxH dirMode depth (splitBox (dirCellBox 4576) 2).1
+      996089606069774466669323083944509920373599761961611327176573179574491718664961341930556).isSome = true := by
   decide +kernel
 
-theorem k4402_1 : (checkBoxH dirMode depth (splitBox (dirCellBox 4402) 2).2
-      21276538667450542466070498738887950207300283573761831488863802519899440380877251876287466291993260442518332395206043972904391).isSome = true := by
+theorem k4576_1 : (checkBoxH dirMode depth (splitBox (dirCellBox 4576) 2).2
+      996131035089873651398002151758990693580022597180079880380739269173151401919756136299580).isSome = true := by
   decide +kernel
 
-theorem k4403_0 : (checkBoxH dirMode depth (splitBox (dirCellBox 4403) 2).1
-      15232842854835000134123623702642195978919930331425574660341743609375655003451970931).isSome = true := by
+theorem k4577_0 : (checkBoxH dirMode depth (splitBox (dirCellBox 4577) 1).1
+      995694734202919574434719414377353617830347027578143048933736211778136754941481876667452).isSome = true := by
   decide +kernel
 
-theorem k4403_1 : (checkBoxH dirMode depth (splitBox (dirCellBox 4403) 2).2
-      21235720681202500417462180703208470283580370426977358249657825362206828822270588598926159998068595263093188559612138675893703).isSome = true := by
+theorem k4577_1 : (checkBoxH dirMode depth (splitBox (dirCellBox 4577) 1).2
+      863631050829593987574336500069624710397851542165429411629798953532476).isSome = true := by
   decide +kernel
 
-theorem c4 : allCells dirCell 4404 4405 [
-    1847907328973250143948359477828418467717270265728113872428160492716631303731755194951189808844306233757745696034745307361055557814131864681887122323330736914154755534] = true := by
+theorem k4578_0 : (checkBoxH dirMode depth (splitBox (dirCellBox 4578) 3).1
+      13490948472466491928006058097193742172457892697407791052354047753276).isSome = true := by
   decide +kernel
 
-theorem c5 : allCells dirCell 4405 4406 [
-    6255951631885077966195579342446928319050924455578769245186338675179045375276704776069632791600173474023670600010953018125700721986625456378742214] = true := by
+theorem k4578_1 : (checkBoxH dirMode depth (splitBox (dirCellBox 4578) 3).2
+      182809822182122992488738477079044065142267624508).isSome = true := by
   decide +kernel
 
-theorem c6 : allCells dirCell 4406 4407 [
-    21186098986503769584035582752115801310351451764978989354574126609799844085020367290802696426924581172908696230698553279350214] = true := by
+theorem c6 : allCells dirCell 4579 4580 [
+    75210294422866583752071993076349244015417182112741378795548482061276121222752222444886337114006056057097405244] = true := by
   decide +kernel
 
-theorem c7 : allCells dirCell 4407 4426 [
-    71753587971604185749754298928002394768285429515558278954458315909986297021364976298218634836760572445510,
-    2790036840070760308336630385637194789345026, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0] = true := by
+theorem c7 : allCells dirCell 4580 4581 [
+    346701215673839670723290288834701655527550706648169042930160911999661022206731969507379556854571350317875300232998093898026787644] = true := by
   decide +kernel
 
-theorem k4426_0 : (checkBoxH dirMode depth (splitBox (dirCellBox 4426) 3).1
-      1428651338299655706780269433423781146489915271083281666921950202040709805878368704782069419415283636332615531148551377380781339).isSome = true := by
+theorem c8 : allCells dirCell 4581 4582 [
+    18351658711703843413336306143809544507983891450754892229035586892470530370699921047797132077135521369760572] = true := by
   decide +kernel
 
-theorem k4426_1 : (checkBoxH dirMode depth (splitBox (splitBox (dirCellBox 4426) 3).2 2).1
-      1223403257533392534348551801056302029927965205816027166776284664453512799501780080286326202742866087632704203).isSome = true := by
+theorem c9 : allCells dirCell 4582 4584 [
+    62171698936799831940068878579209140770873316299565487846293109146929769396837476251057,
+    51423307621869254579594571411139776399368436780077433331775377] = true := by
   decide +kernel
 
-theorem k4426_2 : (checkBoxH dirMode depth (splitBox (splitBox (dirCellBox 4426) 3).2 2).2
-      64780751447442142546789687236982040848742731325615664120177704594601515616361511684167).isSome = true := by
+theorem c10 : allCells dirCell 4584 4597 [
+    147564151027574829572, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    856719106741666450408691744443593792697230416098166198666610327823] = true := by
   decide +kernel
 
-theorem k4427_0 : (checkBoxH dirMode depth (splitBox (splitBox (dirCellBox 4427) 3).1 2).1
-      4114808152402987347378315352950207426598083086351656498122724805350031795152267479257990).isSome = true := by
+theorem k4597_0 : (checkBoxH dirMode depth (splitBox (dirCellBox 4597) 3).1
+      3941155886656104375542068380352242797227684752462160244559350772845915908636196132658).isSome = true := by
   decide +kernel
 
-theorem k4427_1 : (checkBoxH dirMode depth (splitBox (splitBox (dirCellBox 4427) 3).1 2).2
-      256692138111865856887622285697961282605045269451751258644509810770485573495241828947763).isSome = true := by
+theorem k4597_1 : (checkBoxH dirMode depth (splitBox (dirCellBox 4597) 3).2
+      3408081944808195580704580976411990738165781180301038424693093004082).isSome = true := by
   decide +kernel
 
-theorem k4427_2 : (checkBoxH dirMode depth (splitBox (splitBox (dirCellBox 4427) 3).2 2).1
-      1020754919935153121066332518312600325246159602569372536516495833126637086858946858259657).isSome = true := by
+theorem k4598_0 : (checkBoxH dirMode depth (splitBox (dirCellBox 4598) 2).1
+      4014722698707106352428799107469605445172767003143654489482594391661344394259642982953779).isSome = true := by
   decide +kernel
 
-theorem k4427_3 : (checkBoxH dirMode depth (splitBox (splitBox (dirCellBox 4427) 3).2 2).2
-      16342385830439222582850545773055607539859312151292743948712379181267565940557463680799625).isSome = true := by
+theorem k4598_1 : (checkBoxH dirMode depth (splitBox (dirCellBox 4598) 2).2
+      1003649962909139339346021858562422395509170254150427953702913624463042688797978418574131).isSome = true := by
   decide +kernel
 
-theorem cover : Cover dirMode dirCellBox 4400 4428 :=
-  (Cover.one (box := dirCellBox) (n := 4400)
-      (.split 2 (.leaf _ k4400_0) (.split 3 (.leaf _ k4400_1) (.leaf _ k4400_2)))).trans <|
-  (Cover.one (box := dirCellBox) (n := 4401)
-      (.split 2 (.leaf _ k4401_0) (.split 3 (.leaf _ k4401_1) (.leaf _ k4401_2)))).trans <|
-  (Cover.one (box := dirCellBox) (n := 4402)
-      (.split 2 (.leaf _ k4402_0) (.leaf _ k4402_1))).trans <|
-  (Cover.one (box := dirCellBox) (n := 4403)
-      (.split 2 (.leaf _ k4403_0) (.leaf _ k4403_1))).trans <|
-  (Cover.dir c4).trans <|
-  (Cover.dir c5).trans <|
+theorem k4599_0 : (checkBoxH dirMode depth (splitBox (dirCellBox 4599) 2).1
+      302691015350397469555458511740534672392911522593916177751866999567752694904292157550912603108072048230326448945).isSome = true := by
+  decide +kernel
+
+theorem k4599_1 : (checkBoxH dirMode depth (splitBox (dirCellBox 4599) 2).2
+      4728553715877923552592578801307959882980521222845209859652614968138529830464501170092968686064894879216284467).isSome = true := by
+  decide +kernel
+
+theorem k4600_0 : (checkBoxH dirMode depth (splitBox (dirCellBox 4600) 2).1
+      302194846517471092782191811323070142702251796271830442651737481501172745631667391662303475738210818574467838769).isSome = true := by
+  decide +kernel
+
+theorem k4600_1 : (checkBoxH dirMode depth (splitBox (dirCellBox 4600) 2).2
+      18881452743573746331643682785920865377839843170265398002181388494312667044629013644885005913666489776514904883).isSome = true := by
+  decide +kernel
+
+theorem k4601_0 : (checkBoxH dirMode depth (splitBox (dirCellBox 4601) 2).1
+      1022195869450293056665064623761943500672433747047757926898391555673410363110404341748052787).isSome = true := by
+  decide +kernel
+
+theorem k4601_1 : (checkBoxH dirMode depth (splitBox (dirCellBox 4601) 2).2
+      15972655271833868508395595249222970637275644753181109957085110208996305427358723164451635).isSome = true := by
+  decide +kernel
+
+theorem k4602_0 : (checkBoxH dirMode depth (splitBox (dirCellBox 4602) 2).1
+      63825705781843065560045170900228172533839495189768461172484099300153962964671790434405171).isSome = true := by
+  decide +kernel
+
+theorem k4602_1 : (checkBoxH dirMode depth (splitBox (dirCellBox 4602) 2).2
+      15960559515326149229459748216873724911607384762224374172597207401645448461909183152114481).isSome = true := by
+  decide +kernel
+
+theorem k4603_0 : (checkBoxH dirMode depth (splitBox (dirCellBox 4603) 2).1
+      249186970445320216030669977598428789562676595932272281795300790327345986635347386580028).isSome = true := by
+  decide +kernel
+
+theorem k4603_1 : (checkBoxH dirMode depth (splitBox (dirCellBox 4603) 2).2
+      249196245970671734739197826561178909366046609287437113185871030082199337032828996435004).isSome = true := by
+  decide +kernel
+
+theorem k4604_0 : (checkBoxH dirMode depth (splitBox (dirCellBox 4604) 2).1
+      996168571179923517105512345592553169459213536269531220291988223234853370353406342478908).isSome = true := by
+  decide +kernel
+
+theorem k4604_1 : (checkBoxH dirMode depth (splitBox (dirCellBox 4604) 2).2
+      210954213516091282636779409221763011604512095261280642056909634620).isSome = true := by
+  decide +kernel
+
+theorem k4605_0 : (checkBoxH dirMode depth (splitBox (dirCellBox 4605) 3).1
+      210878869071624286102453930033131560601935180934987204345648692284).isSome = true := by
+  decide +kernel
+
+theorem k4605_1 : (checkBoxH dirMode depth (splitBox (dirCellBox 4605) 3).2
+      210843741037191957163034619954554064565873056453650690218636704828).isSome = true := by
+  decide +kernel
+
+theorem c20 : allCells dirCell 4606 4607 [
+    75212899945927416888319012254481072906566902650651342449076952204142027820860690925394316903855163759469249340] = true := by
+  decide +kernel
+
+theorem c21 : allCells dirCell 4607 4608 [
+    346772990761760315071447992969905598306888739433236043722736930594110565015015599630377201146103219298636873782399235442541011772] = true := by
+  decide +kernel
+
+theorem c22 : allCells dirCell 4608 4609 [
+    73418193202400318994548930565828068274426329469224574698483359518877729842398536160060615098441051043488572] = true := by
+  decide +kernel
+
+theorem c23 : allCells dirCell 4609 4610 [
+    248744581441987805876440259764659600182676229556675069353632553074694578191637998947132] = true := by
+  decide +kernel
+
+theorem cover : Cover dirMode dirCellBox 4573 4610 :=
+  (Cover.one (box := dirCellBox) (n := 4573)
+      (.split 2 (.leaf _ k4573_0) (.leaf _ k4573_1))).trans <|
+  (Cover.one (box := dirCellBox) (n := 4574)
+      (.split 2 (.leaf _ k4574_0) (.leaf _ k4574_1))).trans <|
+  (Cover.one (box := dirCellBox) (n := 4575)
+      (.split 2 (.leaf _ k4575_0) (.leaf _ k4575_1))).trans <|
+  (Cover.one (box := dirCellBox) (n := 4576)
+      (.split 2 (.leaf _ k4576_0) (.leaf _ k4576_1))).trans <|
+  (Cover.one (box := dirCellBox) (n := 4577)
+      (.split 1 (.leaf _ k4577_0) (.leaf _ k4577_1))).trans <|
+  (Cover.one (box := dirCellBox) (n := 4578)
+      (.split 3 (.leaf _ k4578_0) (.leaf _ k4578_1))).trans <|
   (Cover.dir c6).trans <|
   (Cover.dir c7).trans <|
-  (Cover.one (box := dirCellBox) (n := 4426)
-      (.split 3 (.leaf _ k4426_0) (.split 2 (.leaf _ k4426_1) (.leaf _ k4426_2)))).trans <|
-  (Cover.one (box := dirCellBox) (n := 4427)
-      (.split 3 (.split 2 (.leaf _ k4427_0) (.leaf _ k4427_1)) (.split 2 (.leaf _ k4427_2) (.leaf _ k4427_3))))
+  (Cover.dir c8).trans <|
+  (Cover.dir c9).trans <|
+  (Cover.dir c10).trans <|
+  (Cover.one (box := dirCellBox) (n := 4597)
+      (.split 3 (.leaf _ k4597_0) (.leaf _ k4597_1))).trans <|
+  (Cover.one (box := dirCellBox) (n := 4598)
+      (.split 2 (.leaf _ k4598_0) (.leaf _ k4598_1))).trans <|
+  (Cover.one (box := dirCellBox) (n := 4599)
+      (.split 2 (.leaf _ k4599_0) (.leaf _ k4599_1))).trans <|
+  (Cover.one (box := dirCellBox) (n := 4600)
+      (.split 2 (.leaf _ k4600_0) (.leaf _ k4600_1))).trans <|
+  (Cover.one (box := dirCellBox) (n := 4601)
+      (.split 2 (.leaf _ k4601_0) (.leaf _ k4601_1))).trans <|
+  (Cover.one (box := dirCellBox) (n := 4602)
+      (.split 2 (.leaf _ k4602_0) (.leaf _ k4602_1))).trans <|
+  (Cover.one (box := dirCellBox) (n := 4603)
+      (.split 2 (.leaf _ k4603_0) (.leaf _ k4603_1))).trans <|
+  (Cover.one (box := dirCellBox) (n := 4604)
+      (.split 2 (.leaf _ k4604_0) (.leaf _ k4604_1))).trans <|
+  (Cover.one (box := dirCellBox) (n := 4605)
+      (.split 3 (.leaf _ k4605_0) (.leaf _ k4605_1))).trans <|
+  (Cover.dir c20).trans <|
+  (Cover.dir c21).trans <|
+  (Cover.dir c22).trans <|
+  (Cover.dir c23)
 
 end C4.Cert.Dir146

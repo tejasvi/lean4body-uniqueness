@@ -1,9 +1,8 @@
 cff-version: 1.2.0
 message: "If you use this formalization, please cite the paper as below."
-title: "Uniqueness of four-body convex central configurations, in Lean"
+title: "Convex four-body central configurations, in Lean"
 abstract: >-
-  A Lean 4 and Mathlib formalization of Theorem A of arXiv:2609.35632, with Theorem B in the weak
-  form Q ≥ K/128.
+  A Lean 4 and Mathlib formalization of Theorems A and B of arXiv:2609.35632.
 authors:
   - family-names: Tomar
     given-names: Tejasvi Singh

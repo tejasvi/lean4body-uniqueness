@@ -12,8 +12,8 @@ public import C4.SliceCC
 At a collinear CC, let `k` be the body with the largest coordinate along the line and let `v`
 move `q_k` perpendicular to the line.  Then `K(v) = 0`, and
 `Q(v) = -m_k (Σ_{j≠k} m_j s_kj - λ (M - m_k) / M) < 0` by the equation of body `k` and
-Chebyshev's sum inequality for the distances `r_kj` (which are distinct).  Theorem B (weak form)
-gives `Q ≥ K / 128` at convex CCs, and this passes to limits by `hess_continuousAt`.  So a
+Chebyshev's sum inequality for the distances `r_kj` (which are distinct).  Theorem B gives
+`Q ≥ K / 4` at convex CCs, and this inequality passes to limits by `hess_continuousAt`.  So a
 limit of convex CCs is never collinear.  This is the paper's Lemma 6.3.
 -/
 
@@ -207,9 +207,9 @@ theorem not_collinear_limit {m : ℕ → Masses} {u : ℕ → V2 × V2} {m0 : Ma
   have hc := (hess_continuousAt v hm0 hcc0.1).tendsto.comp (hm.prodMk_nhds hu0)
   have hK := (continuous_fst.tendsto _).comp hc
   have hQ := (continuous_snd.tendsto _).comp hc
-  have hge : 0 ≤ hessQ m0 (qs u0) v - hessK m0 (qs u0) v / 128 :=
-    ge_of_tendsto' (hQ.sub (hK.div_const 128)) fun n => sub_nonneg.2
-      (theoremB_weak (m n) (hmn n) (qs (u n)) (hcc n) (Opos_isConvex (u n) (hu n)) v)
+  have hge : 0 ≤ hessQ m0 (qs u0) v - hessK m0 (qs u0) v / 4 :=
+    ge_of_tendsto' (hQ.sub (hK.div_const 4)) fun n => sub_nonneg.2
+      (theoremB (m n) (hmn n) (qs (u n)) (hcc n) (Opos_isConvex (u n) (hu n)) v)
   rw [hK0] at hge
   linarith
 

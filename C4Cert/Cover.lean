@@ -170,15 +170,6 @@ public import C4Cert.Dir166
 public import C4Cert.Dir167
 public import C4Cert.Dir168
 public import C4Cert.Dir169
-public import C4Cert.Dir170
-public import C4Cert.Dir171
-public import C4Cert.Dir172
-public import C4Cert.Dir173
-public import C4Cert.Dir174
-public import C4Cert.Dir175
-public import C4Cert.Dir176
-public import C4Cert.Dir177
-public import C4Cert.Dir178
 public import C4Cert.Ch000
 public import C4Cert.Ch001
 public import C4Cert.Ch002
@@ -194,15 +185,6 @@ public import C4Cert.Ch011
 public import C4Cert.Ch012
 public import C4Cert.Ch013
 public import C4Cert.Ch014
-public import C4Cert.Ch015
-public import C4Cert.Ch016
-public import C4Cert.Ch017
-public import C4Cert.Ch018
-public import C4Cert.Ch019
-public import C4Cert.Ch020
-public import C4Cert.Ch021
-public import C4Cert.Ch022
-public import C4Cert.Ch023
 
 public section
 
@@ -380,16 +362,7 @@ theorem dirCover : Cover dirMode dirCellBox 0 7840 :=
   Cert.Dir166.cover.trans <|
   Cert.Dir167.cover.trans <|
   Cert.Dir168.cover.trans <|
-  Cert.Dir169.cover.trans <|
-  Cert.Dir170.cover.trans <|
-  Cert.Dir171.cover.trans <|
-  Cert.Dir172.cover.trans <|
-  Cert.Dir173.cover.trans <|
-  Cert.Dir174.cover.trans <|
-  Cert.Dir175.cover.trans <|
-  Cert.Dir176.cover.trans <|
-  Cert.Dir177.cover.trans <|
-  Cert.Dir178.cover
+  Cert.Dir169.cover
 
 theorem chCover : Cover chMode chCellBox 0 9216 :=
   Cert.Ch000.cover.trans <|
@@ -406,15 +379,6 @@ theorem chCover : Cover chMode chCellBox 0 9216 :=
   Cert.Ch011.cover.trans <|
   Cert.Ch012.cover.trans <|
   Cert.Ch013.cover.trans <|
-  Cert.Ch014.cover.trans <|
-  Cert.Ch015.cover.trans <|
-  Cert.Ch016.cover.trans <|
-  Cert.Ch017.cover.trans <|
-  Cert.Ch018.cover.trans <|
-  Cert.Ch019.cover.trans <|
-  Cert.Ch020.cover.trans <|
-  Cert.Ch021.cover.trans <|
-  Cert.Ch022.cover.trans <|
-  Cert.Ch023.cover
+  Cert.Ch014.cover
 
 end C4

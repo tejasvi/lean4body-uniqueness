@@ -15,9 +15,8 @@ public import C4.Sim
 
 * `DF(q) = 0` and `D²F(q)[v, v] = I^{1/2} Q_q(v - α q)`, `α = Σᵢ mᵢ ⟨qᵢ - c, vᵢ⟩ / I`
   (`hessian_fUI`);
-* by Theorem B in its weak form `Q ≥ K/128` (`theoremB_weak`) and `K ≥ 0`, `D²F(q)` is positive
-  semidefinite, and its radical is exactly the tangent space `simTangent q` of the similarity orbit
-  of `q` (`K = 0` forces a rigid motion);
+* by Theorem B and `K ≥ 0`, `D²F(q)` is positive semidefinite, and its radical is exactly the
+  tangent space `simTangent q` of the similarity orbit of `q` (`K = 0` forces a rigid motion);
 * in the slice chart `u ↦ qs u` (`q₁ = 0`, `q₂ = 1`) the Hessian of `F ∘ qs` is positive
   definite and `u` is a strict local minimum (`nondegenerate_slice`);
 * `q` is a local minimum of `F` on the configuration space (`nondegenerate`).
@@ -667,7 +666,7 @@ theorem hess_psd_radical {m : Masses} (hm : ∀ i, 0 < m i) {q : Conf} (hcc : Is
   have hsymm : ∀ v w, fderiv ℝ (fderiv ℝ (fUI m)) q v w = fderiv ℝ (fderiv ℝ (fUI m)) q w v :=
     (cdF (n := 2) hm hq).isSymmSndFDerivAt (by simp)
   have hQ : ∀ v, 0 ≤ hessQ m q v := fun v =>
-    le_trans (div_nonneg (hessK_nonneg m hm q v) (by norm_num)) (theoremB_weak m hm q hcc hconv v)
+    le_trans (div_nonneg (hessK_nonneg m hm q v) (by norm_num)) (theoremB m hm q hcc hconv v)
   have hpsd : ∀ v, 0 ≤ fderiv ℝ (fderiv ℝ (fUI m)) q v v := fun v => by
     rw [hessian_fUI hm hcc v]
     exact mul_nonneg hS.le (hQ _)
@@ -677,7 +676,7 @@ theorem hess_psd_radical {m : Masses} (hm : ∀ i, 0 < m i) {q : Conf} (hcc : Is
     have hQ0 : hessQ m q (v - ((∑ i, m i * dot (q i - cm m q) (v i)) / Iner m q) • q) = 0 :=
       (mul_eq_zero.mp h0).resolve_left hS.ne'
     have hK0 : hessK m q (v - ((∑ i, m i * dot (q i - cm m q) (v i)) / Iner m q) • q) = 0 := by
-      have h1 := theoremB_weak m hm q hcc hconv
+      have h1 := theoremB m hm q hcc hconv
         (v - ((∑ i, m i * dot (q i - cm m q) (v i)) / Iner m q) • q)
       have h2 := hessK_nonneg m hm q
         (v - ((∑ i, m i * dot (q i - cm m q) (v i)) / Iner m q) • q)

@@ -686,7 +686,7 @@ theorem abs_sub_le_radAt {v : ℝ} {A : I} (c : ℕ) (hv : mem v A) :
 
 end I
 
-theorem val_thresh : val thresh = 127 / 128 := by
+theorem val_thresh : val thresh = 3 / 4 := by
   unfold thresh
   rw [val_addB', cast_mul]
   norm_num

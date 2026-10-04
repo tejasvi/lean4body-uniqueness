@@ -16,9 +16,8 @@ configuration with the cyclic order `(1234)`, up to similarity (`theoremA`).  In
 (`theoremA_slice`).
 
 The proof is the paper's.  `pr : 𝒵 → 𝓜` is a local homeomorphism (`prZ_isLocalHomeomorph`, from
-the weak form of Theorem B through the implicit function theorem) and proper
-(`prZ_isProperMap`).  So its fibres all have the same number of points (`fiber_ncard_eq`), because
-`Mpos` is convex, hence connected.
+Theorem B through the implicit function theorem) and proper (`prZ_isProperMap`).  So its fibres
+all have the same number of points (`fiber_ncard_eq`), because `Mpos` is convex, hence connected.
 For four equal masses the fibre is the unit square alone (`square_isCC`, and `albouy_square`,
 proved in `C4.Albouy` along the lines of Theorem 1 of Albouy, Fu and Sun, which the paper cites).
 -/

@@ -25,7 +25,7 @@ import sys
 
 ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'C4Cert')
 CAP = float(os.environ.get('CAP', 4.0))           # predicted cost of one theorem, at most
-MODULE = float(os.environ.get('MODULE', 60.0))    # predicted cost of one module, about
+MODULE = float(os.environ.get('MODULE', 120.0))   # predicted cost of one module, about
 EMPTY = 0.01        # the cost of a cell whose range of the dependent coordinate is empty
 RUN_CELLS = 400     # cells in one `allCells` theorem, at most
 GRIDS = {'dir': ('Dir', 'dirCell', 'dirMode', 'dirCellBox', 'Cover.dir', 7840, 'direct'),

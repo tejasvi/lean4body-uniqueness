@@ -980,12 +980,12 @@ theorem negIndex_eq_zero {E : Type*} [AddCommGroup E] [Module ℝ E] {Q : E → 
       exact ⟨⊥, by simp, fun v hv h0 => absurd ((Submodule.mem_bot ℝ).1 hv) h0⟩
   rw [negIndex, e, csSup_singleton]
 
-/-- at a convex central configuration, `Q > 0` off `𝒯` (`Q ≥ K/128` and `K = 0` on `𝒯` only) -/
+/-- at a convex central configuration, `Q > 0` off `𝒯` (Theorem B and `K = 0` on `𝒯` only) -/
 theorem hessQ_pos_of_convex {m : Masses} (hm : ∀ i, 0 < m i) {q : Conf} (hcc : IsCC m q)
     (hconv : IsConvex q) {v : Conf} (hv : v ∉ rigidT q) : 0 < hessQ m q v := by
-  have hB := theoremB_weak m hm q hcc hconv v
+  have hB := theoremB m hm q hcc hconv v
   have hK := hessK_nonneg m hm q v
-  rcases ((div_nonneg hK (by norm_num : (0 : ℝ) ≤ 128)).trans hB).lt_or_eq with h | h
+  rcases ((div_nonneg hK (by norm_num : (0 : ℝ) ≤ 4)).trans hB).lt_or_eq with h | h
   · exact h
   · exfalso
     have hK0 : hessK m q v = 0 := le_antisymm (by linarith) hK

@@ -62,8 +62,8 @@ def rad (B : Box) (X : I) : Rad :=
   ⟨I.radAt B.X0 (I.ctr B.X0), I.radAt B.X1 (I.ctr B.X1), I.radAt B.X2 (I.ctr B.X2),
     I.radAt X (I.ctr X)⟩
 
-/-- `127/128` -/
-def thresh : Nat := Nat.add Bb (Nat.mul 127 (2 ^ 89))
+/-- `3/4` -/
+def thresh : Nat := Nat.add Bb (Nat.mul 96 (2 ^ 89))
 
 /-! ## bounding the dependent coordinate -/
 
@@ -174,12 +174,12 @@ def locH (M : Mode) (B : Box) : Nat → Nat → List I → List I → Option (Li
 /-- the point `m 2^-24 - 128` of a 32-bit hint field `m` -/
 def yPt (m : Nat) : Nat := Nat.add (Nat.sub Bb (2 ^ 103)) (Nat.shiftLeft m 72)
 
-/-- the jet (if defined) shows `t < 127/128` on the whole box -/
+/-- the jet (if defined) shows `t < 3/4` on the whole box -/
 def trOK (R : Rad) : Option J → Bool
   | some j => Nat.ble (Nat.succ (J.range R j).H) thresh
   | none => false
 
-/-- `tr S(y) < 127/128` on `B × X` -/
+/-- `tr S(y) < 3/4` on `B × X` -/
 def certRun (M : Mode) (B : Box) (X : I) (y0 y1 : Nat) : Bool :=
   trOK (rad B X)
     (M.trJ (rad B X) (jv B.X0 0) (jv B.X1 1) (jv B.X2 2) (jv X 3) (I.pt y0) (I.pt y1))
